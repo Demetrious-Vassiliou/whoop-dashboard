@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recovery Dashboard &middot; 15 April 2026</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Recovery">
+<meta name="theme-color" content="#0a0c0f">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/green-heart_1f49a.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --bg:#0a0c0f; --surface:#13161b; --surface2:#1a1e25;
+    --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
+    --text:#f0f2f5; --muted:#6b7280; --dim:#3d4451;
+    --green:#22c98a; --green-bg:rgba(34,201,138,0.1);
+    --amber:#f5a623; --amber-bg:rgba(245,166,35,0.1);
+    --red:#ef5350;   --red-bg:rgba(239,83,80,0.1);
+    --blue:#5b9cf6;  --blue-bg:rgba(91,156,246,0.1);
+    --r:10px; --r-lg:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;}
+  body::before{content:'';position:fixed;inset:0;
+    background-image:radial-gradient(circle at 20% 50%,rgba(34,201,138,0.03) 0%,transparent 50%),
+                     radial-gradient(circle at 80% 20%,rgba(91,156,246,0.03) 0%,transparent 40%);
+    pointer-events:none;z-index:0;}
+  .shell{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:32px 24px;}
+  .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+  .header-date{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+  .header-title{font-size:28px;font-weight:700;line-height:1.1;}
+  .header-sub{font-size:13px;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace;}
+  .header-badges{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-top:4px;}
+  .badge{padding:4px 10px;border-radius:99px;font-size:11px;font-weight:500;font-family:'DM Mono',monospace;letter-spacing:.04em;}
+  .badge-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,201,138,0.2);}
+  .badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,166,35,0.2);}
+  .badge-blue{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(91,156,246,0.2);}
+  .badge-red{background:var(--red-bg);color:var(--red);border:1px solid rgba(239,83,80,0.2);}
+  .tab-nav{display:flex;gap:4px;margin-bottom:28px;background:var(--surface);border-radius:var(--r);padding:4px;border:1px solid var(--border);}
+  .tab-btn{flex:1;padding:8px 12px;border-radius:7px;border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--muted);transition:all .2s;white-space:nowrap;}
+  .tab-btn:hover{color:var(--text);}
+  .tab-btn.active{background:var(--surface2);color:var(--text);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;animation:fadeIn .2s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .rings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+  .ring-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;transition:border-color .2s;}
+  .ring-card:hover{border-color:var(--border2);}
+  .ring-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .ring-sub{font-size:12px;text-align:center;font-family:'DM Mono',monospace;}
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .metric-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;transition:border-color .2s;}
+  .metric-card:hover{border-color:var(--border2);}
+  .metric-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;}
+  .metric-value{font-size:22px;font-weight:700;line-height:1;}
+  .metric-unit{font-size:11px;color:var(--muted);margin-top:3px;font-family:'DM Mono',monospace;}
+  .highlight{color:var(--green);}  .warn{color:var(--amber);}
+  .sleep-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .sleep-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center;}
+  .sleep-val{font-size:18px;font-weight:700;}
+  .sleep-stage{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+  .chart-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;}
+  .chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .chart-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+  .chart-legend{display:flex;gap:16px;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+  .insights{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+  .insight{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;font-size:13px;line-height:1.6;}
+  .insight.green{border-color:rgba(34,201,138,0.25);background:var(--green-bg);}
+  .insight strong{color:var(--green);font-weight:600;}
+  .day-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
+  .day-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .day-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;}
+  .day-strain-label{font-size:13px;font-weight:600;}
+  .day-stats{font-size:11px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace;}
+  .workout-item{padding:8px 0;border-bottom:1px solid var(--border);}
+  .workout-item:last-child{border-bottom:none;}
+  .workout-name{font-size:13px;font-weight:500;margin-bottom:2px;}
+  .workout-detail{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .run-strip{display:flex;margin-top:12px;background:var(--surface2);border-radius:var(--r);overflow:hidden;border:1px solid var(--border);}
+  .run-stat{flex:1;padding:10px 8px;text-align:center;border-right:1px solid var(--border);}
+  .run-stat:last-child{border-right:none;}
+  .run-stat-val{font-size:15px;font-weight:700;}
+  .run-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.06em;}
+  .period-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+  .period-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;}
+  .period-card:hover{border-color:var(--border2);}
+  .period-card.active{border-color:var(--blue);background:var(--blue-bg);}
+  .period-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+  .period-net{font-size:18px;font-weight:700;}
+  .period-net.surplus{color:var(--amber);} .period-net.deficit{color:var(--green);}
+  .period-sub{font-size:10px;color:var(--muted);margin-top:3px;font-family:'DM Mono',monospace;}
+  .energy-detail{display:none;} .energy-detail.active{display:block;}
+  .energy-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;}
+  .energy-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .energy-title{font-size:14px;font-weight:600;}
+  .net-pill{padding:4px 12px;border-radius:99px;font-size:12px;font-weight:600;font-family:'DM Mono',monospace;}
+  .net-pill.surplus{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,166,35,0.2);}
+  .net-pill.deficit{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,201,138,0.2);}
+  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .bar-lbl{font-size:12px;color:var(--muted);width:90px;flex-shrink:0;}
+  .bar-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+  .bar-val{font-size:12px;font-weight:600;width:60px;text-align:right;font-family:'DM Mono',monospace;flex-shrink:0;}
+  .session-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:12px;}
+  .session-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .session-title{font-size:15px;font-weight:600;}
+  .session-dist{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .race-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+  .race-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;}
+  .race-card.featured{border-color:rgba(91,156,246,0.35);}
+  .race-dist{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;}
+  .race-time{font-size:24px;font-weight:700;}
+  .sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:12px;}
+  .status-note{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
+  .status-note strong{font-weight:600;color:var(--text);}
+  .updated-tag{font-size:10px;color:var(--dim);font-family:'DM Mono',monospace;margin-top:6px;}
+  @media(max-width:600px){
+    .rings-row,.sleep-row{grid-template-columns:1fr 1fr;}
+    .metrics-grid,.period-tabs,.race-grid{grid-template-columns:1fr 1fr;}
+    .header-title{font-size:22px;} .tab-btn{font-size:11px;padding:7px 8px;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-date">Apple Health Dashboard</div>
+      <div class="header-title">Recovery Report</div>
+      <div class="header-sub">Wednesday 15 April 2026</div>
+      <div class="updated-tag">Updated: 3:46 PM</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+      <button onclick="hardRefresh()" style="display:flex;align-items:center;gap:6px;background:rgba(34,201,138,0.12);border:1px solid rgba(34,201,138,0.25);color:#22c98a;border-radius:99px;padding:8px 16px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;letter-spacing:.04em;" title="Reload to get latest data">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+      <div class="header-badges">
+        <span class="badge badge-green">HRV 83ms</span>
+        <span class="badge badge-amber">Strain 8.3/21</span>
+        <span class="badge badge-green">Recovery 93%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('recovery',this)">Recovery</button>
+    <button class="tab-btn" onclick="switchTab('exertion',this)">Exertion</button>
+    <button class="tab-btn" onclick="switchTab('energy',this)">Net energy</button>
+    <button class="tab-btn" onclick="switchTab('sessions',this)">Sessions</button>
+    <button class="tab-btn" onclick="switchTab('running',this)">Running</button>
+  </div>
+
+  <!-- RECOVERY TAB -->
+  <div id="tab-recovery" class="tab-panel active">
+    <div class="rings-row">
+      <div class="ring-card">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
+          <circle cx="55" cy="55" r="46" fill="none" stroke="#22c98a" stroke-width="9"
+            stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="20.2"
+            transform="rotate(-90 55 55)" style="filter:drop-shadow(0 0 6px #22c98a66)"/>
+          <text x="55" y="50" text-anchor="middle" font-size="24" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">93</text>
+          <text x="55" y="65" text-anchor="middle" font-size="9" fill="#6b7280" font-family="DM Mono,monospace">recovery %</text>
+        </svg>
+        <div class="ring-label">Recovery</div>
+        <div class="ring-sub" style="color:#22c98a;">Green - well recovered</div>
+      </div>
+      <div class="ring-card">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
+          <circle cx="55" cy="55" r="46" fill="none" stroke="#22c98a" stroke-width="9"
+            stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="175"
+            transform="rotate(-90 55 55)" style="filter:drop-shadow(0 0 6px #22c98a55)"/>
+          <text x="55" y="50" text-anchor="middle" font-size="24" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">8.3</text>
+          <text x="55" y="65" text-anchor="middle" font-size="9" fill="#6b7280" font-family="DM Mono,monospace">/ 21 strain</text>
+        </svg>
+        <div class="ring-label">Strain today</div>
+        <div class="ring-sub" style="color:#22c98a;">Light</div>
+      </div>
+      <div class="ring-card">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
+          <circle cx="55" cy="55" r="46" fill="none" stroke="#22c98a" stroke-width="9"
+            stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="57.8"
+            transform="rotate(-90 55 55)" style="filter:drop-shadow(0 0 6px rgba(34,201,138,0.3))"/>
+          <text x="55" y="50" text-anchor="middle" font-size="24" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">7.2</text>
+          <text x="55" y="65" text-anchor="middle" font-size="9" fill="#6b7280" font-family="DM Mono,monospace">hrs · avg 6.3h</text>
+        </svg>
+        <div class="ring-label">Sleep</div>
+        <div class="ring-sub" style="color:#22c98a;">0.9h deep &middot; 1.8h REM</div>
+      </div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Resting HR</div>
+        <div class="metric-value warn">67</div>
+        <div class="metric-unit">bpm<span style="color:#ef5350;font-size:11px;"> ↑ +4.0bpm vs avg</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">HRV</div>
+        <div class="metric-value highlight">83</div>
+        <div class="metric-unit">ms<span style="color:#22c98a;font-size:11px;"> ↑ +34.1ms vs avg</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">SpO&#8322;</div>
+        <div class="metric-value">94.0%</div>
+        <div class="metric-unit">blood oxygen</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Resp rate</div>
+        <div class="metric-value">12.5</div>
+        <div class="metric-unit">breaths / min</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Sleep breakdown</div>
+    <div class="sleep-row">
+      <div class="sleep-card"><div class="sleep-val" style="color:#22c98a;">0.9h</div><div class="sleep-stage">Deep</div></div>
+      <div class="sleep-card"><div class="sleep-val" style="color:#5b9cf6;">1.8h</div><div class="sleep-stage">REM</div></div>
+      <div class="sleep-card"><div class="sleep-val">4.6h</div><div class="sleep-stage">Core</div></div>
+      <div class="sleep-card"><div class="sleep-val" style="color:#6b7280;">0.24h</div><div class="sleep-stage">Awake</div></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">Heart rate &middot; today</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">
+          min 57 &middot; max 137 &middot; avg 86
+        </div>
+      </div>
+      <div style="position:relative;height:140px;"><canvas id="hrChart"></canvas></div>
+    </div>
+
+    <div class="insights">
+      <div class="insight green">
+        <strong>HRV 83ms</strong><span style="color:#22c98a;font-size:11px;"> ↑ +34.1ms vs avg</span> (your avg 49ms) &mdash; recovery score 93%. Use this readiness for a quality session today.
+      </div>
+      <div class="insight">
+        Sleep: 0.9h deep + 1.8h REM + 4.6h core = 7.2h total<span style="color:#22c98a;font-size:11px;"> ↑ +0.9h vs avg</span>. Room to improve — prioritise an earlier bedtime.
+      </div>
+      <div class="insight">
+        Strain 8.3/21 (light) from 2 sessions. Active burn 1122 kcal &middot; 0.1k steps.
+      </div>
+      <div class="insight" style="font-size:11px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px;">
+        Your personal baselines (computed from 2025–2026 data): HRV 49ms &middot; RHR 63bpm &middot; Sleep 6.3h
+      </div>
+    </div>
+
+    <!-- Sleep debt section -->
+    <div class="chart-container" style="margin-top:20px;">
+      <div class="chart-header">
+        <div class="chart-title">Sleep debt &middot; 30 days (target 7h/night)</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#22c98a;"></div>Actual sleep</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef5350;height:3px;border-radius:2px;"></div>Cumulative debt</div>
+        </div>
+      </div>
+      <!-- Debt summary row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;">30-day sleep credit</div>
+          <div style="font-size:24px;font-weight:700;color:#22c98a;">+6.0h</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px;">above target</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid rgba(91,156,246,0.3);border-radius:var(--r);padding:14px;text-align:center;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#5b9cf6;margin-bottom:6px;">Tonight's target</div>
+          <div style="font-size:24px;font-weight:700;color:#5b9cf6;">6.8h</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px;">slight reduction — you're in credit, 0.25h for today's exertion added</div>
+        </div>
+      </div>
+      <div style="position:relative;height:160px;"><canvas id="sleepDebtChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- EXERTION TAB -->
+  <div id="tab-exertion" class="tab-panel">
+
+    <!-- Today's strain + target side-by-side -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;">Today so far</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <svg width="56" height="56" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#22c98a" stroke-width="6"
+              stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="99"
+              transform="rotate(-90 32 32)" style="filter:drop-shadow(0 0 5px #22c98a66)"/>
+            <text x="32" y="29" text-anchor="middle" font-size="13" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">8.3</text>
+            <text x="32" y="41" text-anchor="middle" font-size="7" fill="#6b7280" font-family="DM Mono,monospace">/ 21</text>
+          </svg>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#22c98a;">Light</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">2 sessions logged</div>
+            <div style="font-size:11px;color:var(--muted);">1122 kcal &middot; 0.1k steps</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(91,156,246,0.3);border-radius:var(--r-lg);padding:16px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#5b9cf6;margin-bottom:8px;">Today's target</div>
+        <div style="font-size:22px;font-weight:700;color:#5b9cf6;">15.4–18.4</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">HRV well above your avg — go harder today</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--muted);">
+          Still needed: <strong style='color:#f0f2f5;'>+7.1 strain</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's workouts -->
+    <div class="sec-label">Today's sessions</div>
+    <div class="workout-item"><div class="workout-name">Outdoor Walk</div><div class="workout-detail">1:46pm | 1h 16min | 7.2km | HR 98 avg | max 110 | 474 kcal</div><div class="run-strip"><div class="run-stat"><div class="run-stat-val">7.2</div><div class="run-stat-lbl">km</div></div><div class="run-stat"><div class="run-stat-val">10:33</div><div class="run-stat-lbl">pace/km</div></div><div class="run-stat"><div class="run-stat-val" style="color:#22c98a;">98</div><div class="run-stat-lbl">avg HR</div></div><div class="run-stat"><div class="run-stat-val">110</div><div class="run-stat-lbl">max HR</div></div><div class="run-stat"><div class="run-stat-val">474</div><div class="run-stat-lbl">kcal</div></div></div></div>
+<div class="workout-item"><div class="workout-name">Traditional Strength Training</div><div class="workout-detail">5:31am | 1h 26min | HR 104 avg | max 155 | 442 kcal</div></div>
+
+    <!-- Workout suggestions (only shown if target not yet reached) -->
+    
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-top:16px;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Suggested workouts to reach target</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">Cycling · 59min · avg HR ~125bpm → +7.1 strain</div>
+<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">High Intensity Interval Training · 37min · avg HR ~144bpm → +7.1 strain</div>
+<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">Indoor Run · 37min · avg HR ~154bpm → +7.1 strain</div>
+    </div>
+    
+
+    <div class="chart-container" style="margin-top:20px;">
+      <div class="chart-header">
+        <div class="chart-title">30-day strain history</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#ef5350;"></div>High &ge;18</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#5b9cf6;"></div>Moderate &ge;12</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c98a;"></div>Light &lt;12</div>
+        </div>
+      </div>
+      <div style="position:relative;height:160px;"><canvas id="strainChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ENERGY TAB -->
+  <div id="tab-energy" class="tab-panel">
+    <div class="period-tabs">
+      <div class="period-card active" onclick="selPeriod(0,this)">
+        <div class="period-label">Today</div>
+        <div class="period-net deficit">53</div>
+        <div class="period-sub">deficit</div>
+      </div>
+      <div class="period-card" onclick="selPeriod(1,this)">
+        <div class="period-label">Last 3 days</div>
+        <div class="period-net deficit">2409</div>
+        <div class="period-sub">deficit</div>
+      </div>
+      <div class="period-card" onclick="selPeriod(2,this)">
+        <div class="period-label">Last 7 days</div>
+        <div class="period-net deficit">6547</div>
+        <div class="period-sub">deficit</div>
+      </div>
+      <div class="period-card" onclick="selPeriod(3,this)">
+        <div class="period-label">Last 14 days</div>
+        <div class="period-net deficit">11542</div>
+        <div class="period-sub">deficit</div>
+      </div>
+      <div class="period-card" onclick="selPeriod(4,this)">
+        <div class="period-label">Last 30 days</div>
+        <div class="period-net deficit">20141</div>
+        <div class="period-sub">deficit</div>
+      </div>
+    </div>
+
+    <div id="ed0" class="energy-detail active">
+      <div class="energy-card">
+        <div class="energy-header">
+          <div class="energy-title">Today &middot; 15 April 2026</div>
+          <span class="net-pill deficit">53 kcal &middot; deficit</span>
+        </div>
+        <div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">2278</div></div>
+        <div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#6b7280;"></div></div><div class="bar-val">1209</div></div>
+        <div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ef5350;"></div></div><div class="bar-val">1122</div></div>
+        <div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">2331</div></div>
+      </div>
+    </div>
+    <div id="ed1" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 3 days</div><span class="net-pill deficit">2409 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">7300 <span style="color:var(--muted);font-size:10px;">(2433/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:#6b7280;"></div></div><div class="bar-val">4936 <span style="color:var(--muted);font-size:10px;">(1645/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:#ef5350;"></div></div><div class="bar-val">4773 <span style="color:var(--muted);font-size:10px;">(1591/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">9709 <span style="color:var(--muted);font-size:10px;">(3236/day)</span></div></div></div></div>
+    <div id="ed2" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 7 days</div><span class="net-pill deficit">6547 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">17414 <span style="color:var(--muted);font-size:10px;">(2488/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:#6b7280;"></div></div><div class="bar-val">12196 <span style="color:var(--muted);font-size:10px;">(1742/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:#ef5350;"></div></div><div class="bar-val">11765 <span style="color:var(--muted);font-size:10px;">(1681/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">23961 <span style="color:var(--muted);font-size:10px;">(3423/day)</span></div></div></div></div>
+    <div id="ed3" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 14 days</div><span class="net-pill deficit">11542 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">37159 <span style="color:var(--muted);font-size:10px;">(2654/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#6b7280;"></div></div><div class="bar-val">25128 <span style="color:var(--muted);font-size:10px;">(1795/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ef5350;"></div></div><div class="bar-val">23573 <span style="color:var(--muted);font-size:10px;">(1684/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">48701 <span style="color:var(--muted);font-size:10px;">(3479/day)</span></div></div></div></div>
+    <div id="ed4" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 30 days</div><span class="net-pill deficit">20141 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">81835 <span style="color:var(--muted);font-size:10px;">(2728/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:53%;background:#6b7280;"></div></div><div class="bar-val">54413 <span style="color:var(--muted);font-size:10px;">(1814/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:47%;background:#ef5350;"></div></div><div class="bar-val">47563 <span style="color:var(--muted);font-size:10px;">(1585/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">101976 <span style="color:var(--muted);font-size:10px;">(3399/day)</span></div></div></div></div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">Net energy vs strain &middot; 30 days</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5b9cf6;height:3px;border-radius:2px;"></div>Strain /21</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c98a;opacity:.7;"></div>Deficit</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f5a623;opacity:.7;"></div>Surplus</div>
+        </div>
+      </div>
+      <div style="position:relative;height:170px;"><canvas id="netChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SESSIONS TAB -->
+  <div id="tab-sessions" class="tab-panel">
+    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1122 kcal active | 0.1k steps</div>
+    <div class="sec-label">Most Recent Sessions</div>
+    <div class="session-card"><div class="session-header"><div class="session-title">Outdoor Walk</div><div class="session-dist">15 apr · 1:46pm | 1h 16min | 7.2km</div></div><div style="font-size:12px;color:var(--muted);">HR avg 98 | max 110 | 474 kcal active</div></div>
+<div class="session-card"><div class="session-header"><div class="session-title">Traditional Strength Training</div><div class="session-dist">15 apr · 5:31am | 1h 26min</div></div><div style="font-size:12px;color:var(--muted);">HR avg 104 | max 155 | 442 kcal active</div></div>
+  </div>
+
+  <!-- RUNNING TAB -->
+  <div id="tab-running" class="tab-panel">
+    <div class="sec-label">Race time predictions</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;font-family:'DM Mono',monospace;">Based on VO2 Max 49.7 ml/kg/min</div>
+    <div class="race-grid">
+      <div class="race-card"><div class="race-dist">5K</div><div class="race-time">1:16:16</div></div>
+      <div class="race-card"><div class="race-dist">10K</div><div class="race-time">2:40:23</div></div>
+      <div class="race-card featured"><div class="race-dist" style="color:#5b9cf6;">Half marathon</div><div class="race-time">6:01:35</div></div>
+    </div>
+    <div class="metrics-grid" style="margin-top:4px;">
+      <div class="metric-card">
+        <div class="metric-label">VO2 Max</div>
+        <div class="metric-value highlight">49.7</div>
+        <div class="metric-unit">ml/kg/min</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Body fat</div>
+        <div class="metric-value">18.2%</div>
+        <div class="metric-unit">163.6 lb</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Lean mass</div>
+        <div class="metric-value">133.8</div>
+        <div class="metric-unit">lb</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Steps</div>
+        <div class="metric-value">0.1k</div>
+        <div class="metric-unit">today</div>
+      </div>
+    </div>
+    
+  </div>
+
+</div>
+<script>
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function selPeriod(i,el){
+  document.querySelectorAll('.period-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.energy-detail').forEach(d=>d.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('ed'+i).classList.add('active');
+}
+function hardRefresh(){
+  const btn=document.querySelector('button[onclick="hardRefresh()"]');
+  if(btn){
+    btn.style.opacity='0.5';
+    btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 0.8s linear infinite"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Loading…';
+  }
+  const url=window.location.href.split('?')[0]+'?v='+Date.now();
+  window.location.replace(url);
+}
+const L14=["17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr"];
+const S14=[18.9, 6.5, 8.9, 11.0, 9.6, 21.0, 2.8, 14.4, 10.7, 10.0, 11.5, 11.8, 14.2, 2.9, 13.7, 5.5, 18.9, 21.0, 10.4, 6.6, 9.7, 12.3, 15.7, 11.3, 21.0, 4.4, 16.0, 18.2, 9.3, 8.3];
+const N14=[-442, -435, -628, -374, -516, -594, -564, -650, -466, -672, -340, -244, -187, -812, -710, -965, -271, -1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1037, -53];
+const hrLabels=["0:05", "0:10", "0:20", "0:25", "0:30", "0:40", "0:45", "0:55", "1:00", "1:05", "1:10", "1:15", "1:25", "1:30", "1:35", "1:40", "1:45", "1:50", "1:55", "2:00", "2:05", "2:10", "2:15", "2:20", "2:25", "2:30", "2:35", "2:40", "2:45", "2:50", "2:55", "3:00", "3:05", "3:10", "3:15", "3:20", "3:25", "3:30", "3:40", "3:45", "3:55", "4:05", "4:10", "4:15", "4:20", "4:25", "4:30", "4:35", "4:40", "4:45", "4:50", "4:55", "5:05", "5:10", "5:15", "5:30", "5:35", "5:40", "5:45", "5:50", "5:55", "6:00", "6:05", "6:10", "6:15", "6:20", "6:25", "6:30", "6:35", "6:40", "6:45", "6:50", "6:55", "7:00", "7:05", "7:10", "7:15", "7:20", "7:25", "7:35", "7:40", "7:45", "7:50", "7:55", "8:00", "8:10", "8:15", "8:20", "8:30", "8:40", "8:45", "8:50", "8:55", "9:00", "9:10", "9:15", "9:20", "9:25", "9:30", "9:40", "9:45", "9:50", "9:55", "10:05", "10:10", "10:15", "10:20", "10:25", "10:30", "10:35", "10:45", "10:50", "10:55", "11:00", "11:05", "11:10", "12:05", "12:10", "12:15", "12:20", "12:25", "12:35", "12:40", "12:45", "12:50", "12:55", "13:05", "13:10", "13:15", "13:20", "13:25", "13:35", "13:40", "13:45", "13:50", "13:55", "14:00", "14:05", "14:10", "14:15", "14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50", "14:55", "15:00", "15:05", "15:10", "15:15", "15:25", "15:30"];
+const hrValues=[63, 64, 63, 62, 65, 71, 68, 69, 63, 66, 67, 68, 68, 64, 61, 62, 59, 64, 66, 66, 66, 66, 66, 64, 58, 60, 60, 59, 60, 61, 60, 57, 59, 62, 63, 72, 69, 72, 70, 63, 64, 63, 63, 63, 64, 66, 66, 64, 68, 73, 68, 71, 85, 93, 84, 85, 88, 93, 97, 87, 92, 105, 110, 105, 99, 111, 121, 111, 116, 118, 111, 107, 109, 97, 78, 77, 77, 77, 74, 72, 73, 67, 72, 71, 68, 70, 71, 68, 92, 85, 73, 69, 69, 74, 75, 77, 79, 72, 76, 78, 82, 79, 74, 73, 72, 71, 69, 71, 71, 75, 72, 71, 71, 70, 73, 72, 106, 69, 68, 72, 71, 70, 69, 95, 89, 84, 77, 76, 73, 69, 69, 69, 70, 94, 96, 97, 98, 99, 99, 97, 101, 101, 99, 98, 94, 97, 99, 102, 99, 92, 71, 68, 71, 69];
+const sleepLabels=["17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr"];
+const sleepNightly=[6.7, 5.8, 8.4, 7.8, 7.0, 8.0, 6.3, 7.2, 7.4, 7.4, 7.6, 6.5, 7.9, 9.0, 7.3, 7.4, 6.3, 6.1, 7.5, 7.0, 8.7, 6.6, 7.2, 2.9, 9.0, 6.9, 7.1, 8.4, 7.3, 7.2];
+const sleepDebt=[0.3, 1.5, 0.1, -0.8, -0.8, -1.8, -1.1, -1.4, -1.8, -2.2, -2.8, -2.3, -3.2, -5.1, -5.5, -5.8, -5.1, -4.2, -4.7, -4.7, -6.4, -6.0, -6.1, -2.1, -4.0, -4.0, -4.1, -5.5, -5.8, -6.0];
+const gridColor='rgba(255,255,255,0.05)';
+const tickColor='#4b5563';
+const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
+
+if(hrValues.length>0){
+  new Chart(document.getElementById('hrChart'),{
+    type:'line',
+    data:{labels:hrLabels,datasets:[{
+      data:hrValues,borderColor:'#22c98a',borderWidth:1.5,pointRadius:0,fill:true,
+      backgroundColor:(ctx)=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,140);g.addColorStop(0,'rgba(34,201,138,0.15)');g.addColorStop(1,'rgba(34,201,138,0)');return g;},tension:0.3
+    }]},
+    options:{...base,scales:{x:{display:false},y:{min:Math.max(0,Math.min(...hrValues)-10),grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4}}}}
+  });
+}
+
+new Chart(document.getElementById('strainChart'),{
+  type:'bar',
+  data:{labels:L14,datasets:[{data:S14,backgroundColor:S14.map(v=>v>=18?'#ef5350':v>=12?'#5b9cf6':'#22c98a'),borderRadius:4}]},
+  options:{...base,scales:{x:{grid:{display:false},ticks:{color:tickColor,font:{size:9}}},y:{min:0,max:21,grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4}}}}
+});
+
+new Chart(document.getElementById('netChart'),{
+  type:'bar',
+  data:{labels:L14,datasets:[
+    {data:N14.map(v=>v<0?Math.abs(v):0),backgroundColor:'rgba(34,201,138,0.5)',borderRadius:3,label:'Deficit'},
+    {data:N14.map(v=>v>=0?v:0),backgroundColor:'rgba(245,166,35,0.5)',borderRadius:3,label:'Surplus'}
+  ]},
+  options:{...base,scales:{x:{grid:{display:false},ticks:{color:tickColor,font:{size:9}}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4}}}}
+});
+
+new Chart(document.getElementById('sleepDebtChart'),{
+  type:'bar',
+  data:{
+    labels:sleepLabels,
+    datasets:[
+      {
+        type:'bar',
+        label:'Sleep (h)',
+        data:sleepNightly,
+        backgroundColor:sleepNightly.map(v=>v>=7?'rgba(34,201,138,0.6)':'rgba(245,166,35,0.6)'),
+        borderRadius:3,
+        yAxisID:'y'
+      },
+      {
+        type:'line',
+        label:'Cum. debt',
+        data:sleepDebt,
+        borderColor:'#ef5350',
+        borderWidth:1.5,
+        pointRadius:0,
+        fill:false,
+        tension:0.3,
+        yAxisID:'y2'
+      }
+    ]
+  },
+  options:{
+    ...base,
+    plugins:{...base.plugins,legend:{display:false}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:tickColor,font:{size:9},maxTicksLimit:10}},
+      y:{position:'left',grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4},title:{display:true,text:'hrs',color:tickColor,font:{size:8}}},
+      y2:{position:'right',grid:{display:false},ticks:{color:'#ef5350',font:{size:9},maxTicksLimit:4},title:{display:true,text:'debt',color:'#ef5350',font:{size:8}}}
+    }
+  }
+});
+</script>
+</body>
+</html>
