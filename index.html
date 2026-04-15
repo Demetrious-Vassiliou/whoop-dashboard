@@ -140,7 +140,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Wednesday 15 April 2026</div>
-      <div class="updated-tag">Updated: 3:46 PM</div>
+      <div class="updated-tag">Updated: 3:50 PM</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
       <button onclick="hardRefresh()" style="display:flex;align-items:center;gap:6px;background:rgba(34,201,138,0.12);border:1px solid rgba(34,201,138,0.25);color:#22c98a;border-radius:99px;padding:8px 16px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;letter-spacing:.04em;" title="Reload to get latest data">
@@ -240,7 +240,7 @@
       <div class="chart-header">
         <div class="chart-title">Heart rate &middot; today</div>
         <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">
-          min 57 &middot; max 137 &middot; avg 86
+          min 57 &middot; max 137 &middot; avg 85
         </div>
       </div>
       <div style="position:relative;height:140px;"><canvas id="hrChart"></canvas></div>
@@ -254,7 +254,7 @@
         Sleep: 0.9h deep + 1.8h REM + 4.6h core = 7.2h total<span style="color:#22c98a;font-size:11px;"> ↑ +0.9h vs avg</span>. Room to improve — prioritise an earlier bedtime.
       </div>
       <div class="insight">
-        Strain 8.3/21 (light) from 2 sessions. Active burn 1122 kcal &middot; 0.1k steps.
+        Strain 8.3/21 (light) from 2 sessions. Active burn 1126 kcal &middot; 0.1k steps.
       </div>
       <div class="insight" style="font-size:11px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px;">
         Your personal baselines (computed from 2025–2026 data): HRV 49ms &middot; RHR 63bpm &middot; Sleep 6.3h
@@ -306,7 +306,7 @@
           <div>
             <div style="font-size:14px;font-weight:700;color:#22c98a;">Light</div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">2 sessions logged</div>
-            <div style="font-size:11px;color:var(--muted);">1122 kcal &middot; 0.1k steps</div>
+            <div style="font-size:11px;color:var(--muted);">1126 kcal &middot; 0.1k steps</div>
           </div>
         </div>
       </div>
@@ -353,27 +353,27 @@
     <div class="period-tabs">
       <div class="period-card active" onclick="selPeriod(0,this)">
         <div class="period-label">Today</div>
-        <div class="period-net deficit">53</div>
+        <div class="period-net deficit">75</div>
         <div class="period-sub">deficit</div>
       </div>
       <div class="period-card" onclick="selPeriod(1,this)">
         <div class="period-label">Last 3 days</div>
-        <div class="period-net deficit">2409</div>
+        <div class="period-net deficit">2431</div>
         <div class="period-sub">deficit</div>
       </div>
       <div class="period-card" onclick="selPeriod(2,this)">
         <div class="period-label">Last 7 days</div>
-        <div class="period-net deficit">6547</div>
+        <div class="period-net deficit">6569</div>
         <div class="period-sub">deficit</div>
       </div>
       <div class="period-card" onclick="selPeriod(3,this)">
         <div class="period-label">Last 14 days</div>
-        <div class="period-net deficit">11542</div>
+        <div class="period-net deficit">11563</div>
         <div class="period-sub">deficit</div>
       </div>
       <div class="period-card" onclick="selPeriod(4,this)">
         <div class="period-label">Last 30 days</div>
-        <div class="period-net deficit">20141</div>
+        <div class="period-net deficit">20163</div>
         <div class="period-sub">deficit</div>
       </div>
     </div>
@@ -382,18 +382,18 @@
       <div class="energy-card">
         <div class="energy-header">
           <div class="energy-title">Today &middot; 15 April 2026</div>
-          <span class="net-pill deficit">53 kcal &middot; deficit</span>
+          <span class="net-pill deficit">75 kcal &middot; deficit</span>
         </div>
         <div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">2278</div></div>
-        <div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#6b7280;"></div></div><div class="bar-val">1209</div></div>
-        <div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ef5350;"></div></div><div class="bar-val">1122</div></div>
-        <div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">2331</div></div>
+        <div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#6b7280;"></div></div><div class="bar-val">1227</div></div>
+        <div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ef5350;"></div></div><div class="bar-val">1126</div></div>
+        <div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">2353</div></div>
       </div>
     </div>
-    <div id="ed1" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 3 days</div><span class="net-pill deficit">2409 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">7300 <span style="color:var(--muted);font-size:10px;">(2433/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:#6b7280;"></div></div><div class="bar-val">4936 <span style="color:var(--muted);font-size:10px;">(1645/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:#ef5350;"></div></div><div class="bar-val">4773 <span style="color:var(--muted);font-size:10px;">(1591/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">9709 <span style="color:var(--muted);font-size:10px;">(3236/day)</span></div></div></div></div>
-    <div id="ed2" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 7 days</div><span class="net-pill deficit">6547 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">17414 <span style="color:var(--muted);font-size:10px;">(2488/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:#6b7280;"></div></div><div class="bar-val">12196 <span style="color:var(--muted);font-size:10px;">(1742/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:#ef5350;"></div></div><div class="bar-val">11765 <span style="color:var(--muted);font-size:10px;">(1681/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">23961 <span style="color:var(--muted);font-size:10px;">(3423/day)</span></div></div></div></div>
-    <div id="ed3" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 14 days</div><span class="net-pill deficit">11542 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">37159 <span style="color:var(--muted);font-size:10px;">(2654/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#6b7280;"></div></div><div class="bar-val">25128 <span style="color:var(--muted);font-size:10px;">(1795/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ef5350;"></div></div><div class="bar-val">23573 <span style="color:var(--muted);font-size:10px;">(1684/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">48701 <span style="color:var(--muted);font-size:10px;">(3479/day)</span></div></div></div></div>
-    <div id="ed4" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 30 days</div><span class="net-pill deficit">20141 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">81835 <span style="color:var(--muted);font-size:10px;">(2728/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:53%;background:#6b7280;"></div></div><div class="bar-val">54413 <span style="color:var(--muted);font-size:10px;">(1814/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:47%;background:#ef5350;"></div></div><div class="bar-val">47563 <span style="color:var(--muted);font-size:10px;">(1585/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">101976 <span style="color:var(--muted);font-size:10px;">(3399/day)</span></div></div></div></div>
+    <div id="ed1" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 3 days</div><span class="net-pill deficit">2431 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">7300 <span style="color:var(--muted);font-size:10px;">(2433/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:#6b7280;"></div></div><div class="bar-val">4954 <span style="color:var(--muted);font-size:10px;">(1651/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:#ef5350;"></div></div><div class="bar-val">4777 <span style="color:var(--muted);font-size:10px;">(1592/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">9731 <span style="color:var(--muted);font-size:10px;">(3244/day)</span></div></div></div></div>
+    <div id="ed2" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 7 days</div><span class="net-pill deficit">6569 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">17414 <span style="color:var(--muted);font-size:10px;">(2488/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:#6b7280;"></div></div><div class="bar-val">12214 <span style="color:var(--muted);font-size:10px;">(1745/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:#ef5350;"></div></div><div class="bar-val">11769 <span style="color:var(--muted);font-size:10px;">(1681/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">23983 <span style="color:var(--muted);font-size:10px;">(3426/day)</span></div></div></div></div>
+    <div id="ed3" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 14 days</div><span class="net-pill deficit">11563 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">37159 <span style="color:var(--muted);font-size:10px;">(2654/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#6b7280;"></div></div><div class="bar-val">25146 <span style="color:var(--muted);font-size:10px;">(1796/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#ef5350;"></div></div><div class="bar-val">23576 <span style="color:var(--muted);font-size:10px;">(1684/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">48722 <span style="color:var(--muted);font-size:10px;">(3480/day)</span></div></div></div></div>
+    <div id="ed4" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 30 days</div><span class="net-pill deficit">20163 kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">81835 <span style="color:var(--muted);font-size:10px;">(2728/day)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:53%;background:#6b7280;"></div></div><div class="bar-val">54431 <span style="color:var(--muted);font-size:10px;">(1814/day)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:47%;background:#ef5350;"></div></div><div class="bar-val">47566 <span style="color:var(--muted);font-size:10px;">(1586/day)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">101998 <span style="color:var(--muted);font-size:10px;">(3400/day)</span></div></div></div></div>
 
     <div class="chart-container">
       <div class="chart-header">
@@ -410,7 +410,7 @@
 
   <!-- SESSIONS TAB -->
   <div id="tab-sessions" class="tab-panel">
-    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1122 kcal active | 0.1k steps</div>
+    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1126 kcal active | 0.1k steps</div>
     <div class="sec-label">Most Recent Sessions</div>
     <div class="session-card"><div class="session-header"><div class="session-title">Outdoor Walk</div><div class="session-dist">15 apr · 1:46pm | 1h 16min | 7.2km</div></div><div style="font-size:12px;color:var(--muted);">HR avg 98 | max 110 | 474 kcal active</div></div>
 <div class="session-card"><div class="session-header"><div class="session-title">Traditional Strength Training</div><div class="session-dist">15 apr · 5:31am | 1h 26min</div></div><div style="font-size:12px;color:var(--muted);">HR avg 104 | max 155 | 442 kcal active</div></div>
@@ -475,9 +475,9 @@ function hardRefresh(){
 }
 const L14=["17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr"];
 const S14=[18.9, 6.5, 8.9, 11.0, 9.6, 21.0, 2.8, 14.4, 10.7, 10.0, 11.5, 11.8, 14.2, 2.9, 13.7, 5.5, 18.9, 21.0, 10.4, 6.6, 9.7, 12.3, 15.7, 11.3, 21.0, 4.4, 16.0, 18.2, 9.3, 8.3];
-const N14=[-442, -435, -628, -374, -516, -594, -564, -650, -466, -672, -340, -244, -187, -812, -710, -965, -271, -1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1037, -53];
-const hrLabels=["0:05", "0:10", "0:20", "0:25", "0:30", "0:40", "0:45", "0:55", "1:00", "1:05", "1:10", "1:15", "1:25", "1:30", "1:35", "1:40", "1:45", "1:50", "1:55", "2:00", "2:05", "2:10", "2:15", "2:20", "2:25", "2:30", "2:35", "2:40", "2:45", "2:50", "2:55", "3:00", "3:05", "3:10", "3:15", "3:20", "3:25", "3:30", "3:40", "3:45", "3:55", "4:05", "4:10", "4:15", "4:20", "4:25", "4:30", "4:35", "4:40", "4:45", "4:50", "4:55", "5:05", "5:10", "5:15", "5:30", "5:35", "5:40", "5:45", "5:50", "5:55", "6:00", "6:05", "6:10", "6:15", "6:20", "6:25", "6:30", "6:35", "6:40", "6:45", "6:50", "6:55", "7:00", "7:05", "7:10", "7:15", "7:20", "7:25", "7:35", "7:40", "7:45", "7:50", "7:55", "8:00", "8:10", "8:15", "8:20", "8:30", "8:40", "8:45", "8:50", "8:55", "9:00", "9:10", "9:15", "9:20", "9:25", "9:30", "9:40", "9:45", "9:50", "9:55", "10:05", "10:10", "10:15", "10:20", "10:25", "10:30", "10:35", "10:45", "10:50", "10:55", "11:00", "11:05", "11:10", "12:05", "12:10", "12:15", "12:20", "12:25", "12:35", "12:40", "12:45", "12:50", "12:55", "13:05", "13:10", "13:15", "13:20", "13:25", "13:35", "13:40", "13:45", "13:50", "13:55", "14:00", "14:05", "14:10", "14:15", "14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50", "14:55", "15:00", "15:05", "15:10", "15:15", "15:25", "15:30"];
-const hrValues=[63, 64, 63, 62, 65, 71, 68, 69, 63, 66, 67, 68, 68, 64, 61, 62, 59, 64, 66, 66, 66, 66, 66, 64, 58, 60, 60, 59, 60, 61, 60, 57, 59, 62, 63, 72, 69, 72, 70, 63, 64, 63, 63, 63, 64, 66, 66, 64, 68, 73, 68, 71, 85, 93, 84, 85, 88, 93, 97, 87, 92, 105, 110, 105, 99, 111, 121, 111, 116, 118, 111, 107, 109, 97, 78, 77, 77, 77, 74, 72, 73, 67, 72, 71, 68, 70, 71, 68, 92, 85, 73, 69, 69, 74, 75, 77, 79, 72, 76, 78, 82, 79, 74, 73, 72, 71, 69, 71, 71, 75, 72, 71, 71, 70, 73, 72, 106, 69, 68, 72, 71, 70, 69, 95, 89, 84, 77, 76, 73, 69, 69, 69, 70, 94, 96, 97, 98, 99, 99, 97, 101, 101, 99, 98, 94, 97, 99, 102, 99, 92, 71, 68, 71, 69];
+const N14=[-442, -435, -628, -374, -516, -594, -564, -650, -466, -672, -340, -244, -187, -812, -710, -965, -271, -1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1037, -75];
+const hrLabels=["0:05", "0:10", "0:20", "0:25", "0:30", "0:40", "0:45", "0:55", "1:00", "1:05", "1:10", "1:15", "1:25", "1:30", "1:35", "1:40", "1:45", "1:50", "1:55", "2:00", "2:05", "2:10", "2:15", "2:20", "2:25", "2:30", "2:35", "2:40", "2:45", "2:50", "2:55", "3:00", "3:05", "3:10", "3:15", "3:20", "3:25", "3:30", "3:40", "3:45", "3:55", "4:05", "4:10", "4:15", "4:20", "4:25", "4:30", "4:35", "4:40", "4:45", "4:50", "4:55", "5:05", "5:10", "5:15", "5:30", "5:35", "5:40", "5:45", "5:50", "5:55", "6:00", "6:05", "6:10", "6:15", "6:20", "6:25", "6:30", "6:35", "6:40", "6:45", "6:50", "6:55", "7:00", "7:05", "7:10", "7:15", "7:20", "7:25", "7:35", "7:40", "7:45", "7:50", "7:55", "8:00", "8:10", "8:15", "8:20", "8:30", "8:40", "8:45", "8:50", "8:55", "9:00", "9:10", "9:15", "9:20", "9:25", "9:30", "9:40", "9:45", "9:50", "9:55", "10:05", "10:10", "10:15", "10:20", "10:25", "10:30", "10:35", "10:45", "10:50", "10:55", "11:00", "11:05", "11:10", "12:05", "12:10", "12:15", "12:20", "12:25", "12:35", "12:40", "12:45", "12:50", "12:55", "13:05", "13:10", "13:15", "13:20", "13:25", "13:35", "13:40", "13:45", "13:50", "13:55", "14:00", "14:05", "14:10", "14:15", "14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50", "14:55", "15:00", "15:05", "15:10", "15:15", "15:25", "15:30", "15:35", "15:40"];
+const hrValues=[63, 64, 63, 62, 65, 71, 68, 69, 63, 66, 67, 68, 68, 64, 61, 62, 59, 64, 66, 66, 66, 66, 66, 64, 58, 60, 60, 59, 60, 61, 60, 57, 59, 62, 63, 72, 69, 72, 70, 63, 64, 63, 63, 63, 64, 66, 66, 64, 68, 73, 68, 71, 85, 93, 84, 85, 88, 93, 97, 87, 92, 105, 110, 105, 99, 111, 121, 111, 116, 118, 111, 107, 109, 97, 78, 77, 77, 77, 74, 72, 73, 67, 72, 71, 68, 70, 71, 68, 92, 85, 73, 69, 69, 74, 75, 77, 79, 72, 76, 78, 82, 79, 74, 73, 72, 71, 69, 71, 71, 75, 72, 71, 71, 70, 73, 72, 106, 69, 68, 72, 71, 70, 69, 95, 89, 84, 77, 76, 73, 69, 69, 69, 70, 94, 96, 97, 98, 99, 99, 97, 101, 101, 99, 98, 94, 97, 99, 102, 99, 92, 71, 68, 71, 69, 70, 70];
 const sleepLabels=["17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr"];
 const sleepNightly=[6.7, 5.8, 8.4, 7.8, 7.0, 8.0, 6.3, 7.2, 7.4, 7.4, 7.6, 6.5, 7.9, 9.0, 7.3, 7.4, 6.3, 6.1, 7.5, 7.0, 8.7, 6.6, 7.2, 2.9, 9.0, 6.9, 7.1, 8.4, 7.3, 7.2];
 const sleepDebt=[0.3, 1.5, 0.1, -0.8, -0.8, -1.8, -1.1, -1.4, -1.8, -2.2, -2.8, -2.3, -3.2, -5.1, -5.5, -5.8, -5.1, -4.2, -4.7, -4.7, -6.4, -6.0, -6.1, -2.1, -4.0, -4.0, -4.1, -5.5, -5.8, -6.0];
