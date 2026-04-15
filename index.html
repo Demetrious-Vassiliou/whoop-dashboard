@@ -124,10 +124,56 @@
   .status-note{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
   .status-note strong{font-weight:600;color:var(--text);}
   .updated-tag{font-size:10px;color:var(--dim);font-family:'DM Mono',monospace;margin-top:6px;}
+  /* ── Workout list rows ── */
+  .wk-row{display:flex;align-items:center;justify-content:space-between;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+    padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:border-color .18s,background .18s;}
+  .wk-row:hover{border-color:var(--border2);background:var(--surface2);}
+  .wk-row:active{background:#1f2330;}
+  .wk-type{font-size:14px;font-weight:600;margin-bottom:2px;}
+  .wk-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .wk-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .wk-hr{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .effort-badge{padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700;font-family:'DM Mono',monospace;}
+  .effort-easy{background:rgba(34,201,138,0.15);color:#22c98a;border:1px solid rgba(34,201,138,0.25);}
+  .effort-mod{background:rgba(91,156,246,0.15);color:#5b9cf6;border:1px solid rgba(91,156,246,0.25);}
+  .effort-hard{background:rgba(245,166,35,0.15);color:#f5a623;border:1px solid rgba(245,166,35,0.25);}
+  .effort-max{background:rgba(239,83,80,0.15);color:#ef5350;border:1px solid rgba(239,83,80,0.25);}
+  .wk-chevron{color:var(--dim);flex-shrink:0;}
+  /* ── Workout detail modal (bottom sheet) ── */
+  .wk-modal-bg{display:none;position:fixed;inset:0;z-index:1000;
+    background:rgba(0,0,0,0.72);backdrop-filter:blur(5px);}
+  .wk-modal-bg.open{display:block;}
+  .wk-modal{position:absolute;bottom:0;left:0;right:0;max-width:640px;margin:0 auto;
+    background:var(--surface);border-radius:20px 20px 0 0;padding:24px 20px 36px;
+    max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+  .wk-modal.open{transform:translateY(0);}
+  .wk-modal-handle{width:36px;height:4px;background:var(--dim);border-radius:2px;margin:0 auto 20px;}
+  .wk-modal-title{font-size:20px;font-weight:700;margin-bottom:2px;}
+  .wk-modal-sub{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:20px;}
+  .wk-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+  .wk-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center;}
+  .wk-stat-val{font-size:20px;font-weight:700;}
+  .wk-stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:3px;}
+  .wk-effort-bar{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);
+    padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:14px;}
+  .wk-effort-num{font-size:36px;font-weight:700;line-height:1;flex-shrink:0;width:56px;text-align:center;}
+  .wk-effort-track{flex:1;height:10px;background:var(--surface);border-radius:5px;overflow:hidden;}
+  .wk-effort-fill{height:100%;border-radius:5px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+  .wk-effort-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;}
+  .zone-row{margin-bottom:10px;}
+  .zone-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .zone-name{font-size:12px;font-weight:600;}
+  .zone-mins{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .zone-track{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;}
+  .zone-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+  .wk-analysis{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);
+    padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text);margin-top:20px;}
   @media(max-width:600px){
     .rings-row,.sleep-row{grid-template-columns:1fr 1fr;}
     .metrics-grid,.period-tabs,.race-grid{grid-template-columns:1fr 1fr;}
     .header-title{font-size:22px;} .tab-btn{font-size:11px;padding:7px 8px;}
+    .wk-stat-grid{grid-template-columns:repeat(2,1fr);}
   }
 </style>
 </head>
@@ -140,7 +186,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Wednesday 15 April 2026</div>
-      <div class="updated-tag">Updated: 8:19 PM</div>
+      <div class="updated-tag">Updated: 8:30 PM</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
       <button onclick="hardRefresh()" style="display:flex;align-items:center;gap:6px;background:rgba(34,201,138,0.12);border:1px solid rgba(34,201,138,0.25);color:#22c98a;border-radius:99px;padding:8px 16px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;letter-spacing:.04em;" title="Reload to get latest data">
@@ -445,16 +491,21 @@
     </div>
   </div>
 
-  <!-- SESSIONS TAB -->
+  <!-- WORKOUTS TAB -->
   <div id="tab-sessions" class="tab-panel">
     <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1250 kcal active | 14.9k steps</div>
-    <div class="sec-label">Most Recent Workouts</div>
-    <div class="session-card"><div class="session-header"><div class="session-title">Outdoor Walk</div><div class="session-dist">15 apr · 1:46pm | 1h 16min | 7.2km</div></div><div style="font-size:12px;color:var(--muted);">HR avg 98 | max 110 | 474 kcal active</div></div>
-<div class="session-card"><div class="session-header"><div class="session-title">Traditional Strength Training</div><div class="session-dist">15 apr · 5:31am | 1h 26min</div></div><div style="font-size:12px;color:var(--muted);">HR avg 104 | max 155 | 442 kcal active</div></div>
+    <div class="sec-label">Last 10 Workouts &mdash; tap for full detail</div>
+    <div id="wk-list"><!-- populated by JS --></div>
   </div>
 
-  <!-- RUNNING TAB -->
+</div>
 
+<!-- Workout detail modal -->
+<div id="wk-modal-bg" class="wk-modal-bg" onclick="closeWkModal(event)">
+  <div id="wk-modal" class="wk-modal">
+    <div class="wk-modal-handle"></div>
+    <div id="wk-modal-content"><!-- populated by JS --></div>
+  </div>
 </div>
 <script>
 function switchTab(name,btn){
@@ -543,6 +594,115 @@ new Chart(document.getElementById('netChart'),{
   ]},
   options:{...base,scales:{x:{grid:{display:false},ticks:{color:tickColor,font:{size:10}}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4}}}}
 });
+
+// ── Workouts tab ──────────────────────────────────────────────────────────────
+const WORKOUTS_DATA=[{"type": "Outdoor Walk", "start_fmt": "15 apr \u00b7 1:46pm", "duration": "1h 16min", "avg_hr": 98, "max_hr": 110, "distance_km": 7.2, "active_kcal": 474, "effort": 2.9, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 25}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 0}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 0}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Long session at 76 min adds meaningful training volume."}, {"type": "Traditional Strength Training", "start_fmt": "15 apr \u00b7 5:31am", "duration": "1h 26min", "avg_hr": 104, "max_hr": 155, "distance_km": null, "active_kcal": 442, "effort": 5.2, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 28}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 20}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 8}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Long session at 86 min adds meaningful training volume. Large HR spread (104\u2013155 bpm) suggests intervals or surges."}, {"type": "Outdoor Walk", "start_fmt": "13 apr \u00b7 3:29pm", "duration": "36min", "avg_hr": 104, "max_hr": 113, "distance_km": 3.4, "active_kcal": 235, "effort": 1.7, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 16}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 0}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 0}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Good duration at 37 min for meaningful adaptation."}, {"type": "Pickleball", "start_fmt": "13 apr \u00b7 1:18pm", "duration": "1h 52min", "avg_hr": 135, "max_hr": 166, "distance_km": null, "active_kcal": 1167, "effort": 10.0, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 23}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 31}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 29}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 8}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Tempo/aerobic threshold zone \u2014 builds lactate threshold and cardiovascular capacity. Long session at 113 min adds meaningful training volume. Large HR spread (135\u2013166 bpm) suggests intervals or surges."}, {"type": "Outdoor Walk", "start_fmt": "13 apr \u00b7 12:28pm", "duration": "37min", "avg_hr": 99, "max_hr": 111, "distance_km": 3.4, "active_kcal": 206, "effort": 1.4, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 13}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 0}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 0}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Good duration at 37 min for meaningful adaptation."}, {"type": "Outdoor Walk", "start_fmt": "13 apr \u00b7 7:15am", "duration": "30min", "avg_hr": 94, "max_hr": 121, "distance_km": 2.7, "active_kcal": 178, "effort": 1.0, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 11}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 1}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 0}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Short session (31 min) \u2014 quality over quantity. Moderate HR variation \u2014 pacing shifted during the session."}, {"type": "Outdoor Walk", "start_fmt": "12 apr \u00b7 6:48pm", "duration": "33min", "avg_hr": 95, "max_hr": 121, "distance_km": 2.9, "active_kcal": 197, "effort": 1.1, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 12}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 1}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 0}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Short session (33 min) \u2014 quality over quantity. Moderate HR variation \u2014 pacing shifted during the session."}, {"type": "Outdoor Walk", "start_fmt": "12 apr \u00b7 12:00pm", "duration": "29min", "avg_hr": 101, "max_hr": 135, "distance_km": 2.1, "active_kcal": 150, "effort": 1.3, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 11}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 5}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 0}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Short session (30 min) \u2014 quality over quantity. Large HR spread (101\u2013135 bpm) suggests intervals or surges."}, {"type": "Traditional Strength Training", "start_fmt": "12 apr \u00b7 9:39am", "duration": "2h 13min", "avg_hr": 109, "max_hr": 149, "distance_km": null, "active_kcal": 666, "effort": 9.5, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 45}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 34}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 10}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Long session at 133 min adds meaningful training volume. Large HR spread (109\u2013149 bpm) suggests intervals or surges."}, {"type": "Outdoor Walk", "start_fmt": "12 apr \u00b7 9:06am", "duration": "21min", "avg_hr": 108, "max_hr": 144, "distance_km": 2.0, "active_kcal": 123, "effort": 1.1, "zones": [{"name": "Zone 1", "label": "Recovery", "color": "#6b7280", "minutes": 8}, {"name": "Zone 2", "label": "Aerobic", "color": "#22c98a", "minutes": 5}, {"name": "Zone 3", "label": "Tempo", "color": "#5b9cf6", "minutes": 1}, {"name": "Zone 4", "label": "Threshold", "color": "#f5a623", "minutes": 0}, {"name": "Zone 5", "label": "Max", "color": "#ef5350", "minutes": 0}], "analysis": "Easy recovery intensity \u2014 ideal for active recovery and fat metabolism. Short session (21 min) \u2014 quality over quantity. Large HR spread (108\u2013144 bpm) suggests intervals or surges."}];
+
+function effortClass(s){return s<=3?'easy':s<=6?'mod':s<=8?'hard':'max';}
+function effortLabel(s){return s<=3?'Light':s<=6?'Moderate':s<=8?'Hard':'Max';}
+function effortColor(s){return s<=3?'#22c98a':s<=6?'#5b9cf6':s<=8?'#f5a623':'#ef5350';}
+function zoneColor(c){return c;}
+
+function renderWorkoutList(){
+  const el=document.getElementById('wk-list');
+  if(!el) return;
+  if(!WORKOUTS_DATA||!WORKOUTS_DATA.length){
+    el.innerHTML='<div class="status-note">No workout history found in annual CSV files.</div>';
+    return;
+  }
+  el.innerHTML=WORKOUTS_DATA.map((w,i)=>{
+    const hr=w.avg_hr?`<span class="wk-hr">${w.avg_hr} bpm</span>`:'';
+    const ef=w.effort!=null?`<span class="effort-badge effort-${effortClass(w.effort)}">${w.effort}/10</span>`:'';
+    const dist=w.distance_km?`<span style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">${w.distance_km}km</span>`:'';
+    return `<div class="wk-row" onclick="openWkModal(${i})">
+      <div>
+        <div class="wk-type">${w.type}</div>
+        <div class="wk-meta">${w.start_fmt} &middot; ${w.duration}</div>
+      </div>
+      <div class="wk-right">
+        ${dist}${hr}${ef}
+        <svg class="wk-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderWorkoutList();
+
+function openWkModal(i){
+  const w=WORKOUTS_DATA[i];
+  const totalMin=w.zones?w.zones.reduce((a,z)=>a+z.minutes,0)||1:1;
+  const hrStats=[];
+  if(w.avg_hr) hrStats.push(`<div class="wk-stat"><div class="wk-stat-val" style="color:#22c98a;">${w.avg_hr}</div><div class="wk-stat-lbl">Avg HR bpm</div></div>`);
+  if(w.max_hr) hrStats.push(`<div class="wk-stat"><div class="wk-stat-val">${w.max_hr}</div><div class="wk-stat-lbl">Max HR bpm</div></div>`);
+  if(w.active_kcal) hrStats.push(`<div class="wk-stat"><div class="wk-stat-val">${w.active_kcal}</div><div class="wk-stat-lbl">Active kcal</div></div>`);
+  if(w.distance_km) hrStats.push(`<div class="wk-stat"><div class="wk-stat-val">${w.distance_km}</div><div class="wk-stat-lbl">Distance km</div></div>`);
+  const effortHtml=w.effort!=null?`
+    <div class="wk-effort-bar">
+      <div>
+        <div class="wk-effort-num" style="color:${effortColor(w.effort)};">${w.effort}</div>
+        <div class="wk-effort-lbl" style="text-align:center;">/ 10</div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:12px;font-weight:600;color:${effortColor(w.effort)};">Effort — ${effortLabel(w.effort)}</span>
+          <span style="font-size:11px;color:var(--muted);">Exertion score</span>
+        </div>
+        <div class="wk-effort-track">
+          <div class="wk-effort-fill" style="width:${Math.round(w.effort/10*100)}%;background:${effortColor(w.effort)};"></div>
+        </div>
+      </div>
+    </div>`:''
+  ;
+  const zonesHtml=w.zones&&w.zones.some(z=>z.minutes>0)?`
+    <div class="sec-label" style="margin-bottom:10px;">HR Training Zones <span style="font-size:10px;color:var(--muted);font-weight:400;">(estimated from avg/max HR)</span></div>
+    ${w.zones.map(z=>`
+      <div class="zone-row">
+        <div class="zone-header">
+          <span class="zone-name" style="color:${z.color};">${z.name} &middot; ${z.label}</span>
+          <span class="zone-mins">${z.minutes} min &middot; ${Math.round(z.minutes/totalMin*100)}%</span>
+        </div>
+        <div class="zone-track">
+          <div class="zone-fill" style="width:${Math.round(z.minutes/totalMin*100)}%;background:${z.color};"></div>
+        </div>
+      </div>`).join('')}
+  `:'<div style="font-size:12px;color:var(--muted);">HR data not available for zone breakdown.</div>';
+
+  document.getElementById('wk-modal-content').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+      <div class="wk-modal-title">${w.type}</div>
+      <button onclick="closeWkModalBtn()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:99px;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&times;</button>
+    </div>
+    <div class="wk-modal-sub">${w.start_fmt} &middot; ${w.duration}</div>
+    <div class="wk-stat-grid">${hrStats.join('')}</div>
+    ${effortHtml}
+    ${zonesHtml}
+    ${w.analysis?`<div class="wk-analysis">${w.analysis}</div>`:''}
+  `;
+  const bg=document.getElementById('wk-modal-bg');
+  const modal=document.getElementById('wk-modal');
+  bg.classList.add('open');
+  requestAnimationFrame(()=>modal.classList.add('open'));
+}
+function closeWkModal(e){
+  if(e.target===document.getElementById('wk-modal-bg')) _doCloseWkModal();
+}
+function closeWkModalBtn(){ _doCloseWkModal(); }
+function _doCloseWkModal(){
+  const bg=document.getElementById('wk-modal-bg');
+  const modal=document.getElementById('wk-modal');
+  modal.classList.remove('open');
+  setTimeout(()=>bg.classList.remove('open'),300);
+}
+// swipe-down to close on mobile
+(function(){
+  let startY=0;
+  const m=document.getElementById('wk-modal');
+  if(!m) return;
+  m.addEventListener('touchstart',e=>{startY=e.touches[0].clientY;},{passive:true});
+  m.addEventListener('touchend',e=>{
+    if(e.changedTouches[0].clientY - startY > 80) _doCloseWkModal();
+  },{passive:true});
+})();
 
 new Chart(document.getElementById('sleepDebtChart'),{
   type:'bar',
