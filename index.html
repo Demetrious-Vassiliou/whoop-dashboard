@@ -140,7 +140,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Wednesday 15 April 2026</div>
-      <div class="updated-tag">Updated: 7:40 PM</div>
+      <div class="updated-tag">Updated: 8:07 PM</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
       <button onclick="hardRefresh()" style="display:flex;align-items:center;gap:6px;background:rgba(34,201,138,0.12);border:1px solid rgba(34,201,138,0.25);color:#22c98a;border-radius:99px;padding:8px 16px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;letter-spacing:.04em;" title="Reload to get latest data">
@@ -197,7 +197,7 @@
             stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="57.8"
             transform="rotate(-90 55 55)" style="filter:drop-shadow(0 0 6px rgba(34,201,138,0.3))"/>
           <text x="55" y="50" text-anchor="middle" font-size="24" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">7.2</text>
-          <text x="55" y="65" text-anchor="middle" font-size="9" fill="#6b7280" font-family="DM Mono,monospace">hrs · target 7.5h</text>
+          <text x="55" y="65" text-anchor="middle" font-size="9" fill="#6b7280" font-family="DM Mono,monospace">hrs · target 7.2h</text>
         </svg>
         <div class="ring-label">Sleep</div>
         <div class="ring-sub" style="color:#22c98a;">0.9h deep &middot; 1.8h REM</div>
@@ -214,8 +214,8 @@
         </div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#f5a623;line-height:1;filter:drop-shadow(0 0 6px #f5a62355);">14.1k</div>
-        <div style="font-size:10px;color:#f5a623;margin-top:2px;opacity:0.8;">good &middot; 0.8k excl. Traditional Strength Training</div>
+        <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#f5a623;line-height:1;filter:drop-shadow(0 0 6px #f5a62355);">14.9k</div>
+        <div style="font-size:10px;color:#f5a623;margin-top:2px;opacity:0.8;">good &middot; walks included</div>
       </div>
     </div>
 
@@ -244,10 +244,10 @@
 
     <div class="sec-label">Sleep breakdown</div>
     <div class="sleep-row">
-      <div class="sleep-card"><div class="sleep-val" style="color:#22c98a;">0.9h</div><div class="sleep-stage">Deep</div></div>
-      <div class="sleep-card"><div class="sleep-val" style="color:#5b9cf6;">1.8h</div><div class="sleep-stage">REM</div></div>
-      <div class="sleep-card"><div class="sleep-val">4.6h</div><div class="sleep-stage">Core</div></div>
-      <div class="sleep-card"><div class="sleep-val" style="color:#6b7280;">0.24h</div><div class="sleep-stage">Awake</div></div>
+      <div class="sleep-card"><div class="sleep-val" style="color:#22c98a;">0.9h</div><div class="sleep-stage">Deep</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 0.7h</div></div>
+      <div class="sleep-card"><div class="sleep-val" style="color:#ef5350;">1.8h</div><div class="sleep-stage">REM</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 1.9h</div></div>
+      <div class="sleep-card"><div class="sleep-val" style="color:#ef5350;">4.6h</div><div class="sleep-stage">Core</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 4.8h</div></div>
+      <div class="sleep-card"><div class="sleep-val" style="color:#ef5350;">0.24h</div><div class="sleep-stage">Awake</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 0.22h</div></div>
     </div>
 
     <div class="chart-container">
@@ -268,7 +268,7 @@
         Sleep: 0.9h deep + 1.8h REM + 4.6h core = 7.2h total<span style="color:#22c98a;font-size:11px;"> ↑ +0.9h vs avg</span>. Room to improve — prioritise an earlier bedtime.
       </div>
       <div class="insight">
-        Strain 8.3/21 (light) from 2 sessions. Active burn 1250 kcal &middot; 14.1k steps.
+        Strain 8.3/21 (light) from 2 sessions. Active burn 1250 kcal &middot; 14.9k steps.
       </div>
       <div class="insight" style="font-size:11px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px;">
         Your personal baselines (computed from 2025–2026 data): HRV 49ms &middot; RHR 63bpm &middot; Sleep 6.3h
@@ -278,7 +278,7 @@
     <!-- Sleep debt section -->
     <div class="chart-container" style="margin-top:20px;">
       <div class="chart-header">
-        <div class="chart-title">Sleep debt &middot; 30 days (target 7.5h/night)</div>
+        <div class="chart-title">Sleep debt &middot; 30 days (target 7.2h/night)</div>
         <div class="chart-legend">
           <div class="legend-item"><div class="legend-dot" style="background:#22c98a;"></div>Actual sleep</div>
           <div class="legend-item"><div class="legend-dot" style="background:#ef5350;height:3px;border-radius:2px;"></div>Cumulative debt</div>
@@ -288,13 +288,16 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center;">
           <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;">30-day sleep debt</div>
-          <div style="font-size:24px;font-weight:700;color:#ef5350;">9.0h</div>
+          <div style="font-size:24px;font-weight:700;color:#22c98a;">0.0h</div>
           <div style="font-size:10px;color:var(--muted);margin-top:4px;">below target</div>
         </div>
         <div style="background:var(--surface);border:1px solid rgba(91,156,246,0.3);border-radius:var(--r);padding:14px;text-align:center;">
           <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#5b9cf6;margin-bottom:6px;">Tonight's target</div>
-          <div style="font-size:24px;font-weight:700;color:#5b9cf6;">9.2h</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:4px;">1.5h to repay sleep debt, 0.25h for today's exertion added</div>
+          <div style="display:flex;align-items:baseline;justify-content:center;gap:10px;">
+            <div style="font-size:24px;font-weight:700;color:#5b9cf6;">7.5h</div>
+            <div style="font-size:13px;font-weight:600;color:#5b9cf6;opacity:0.85;">bed by 22:56</div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px;">0.25h for today's exertion added</div>
         </div>
       </div>
       <div style="position:relative;height:160px;"><canvas id="sleepDebtChart"></canvas></div>
@@ -320,7 +323,7 @@
           <div>
             <div style="font-size:14px;font-weight:700;color:#22c98a;">Light</div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">2 sessions logged</div>
-            <div style="font-size:11px;color:var(--muted);">1250 kcal &middot; 14.1k steps</div>
+            <div style="font-size:11px;color:var(--muted);">1250 kcal &middot; 14.9k steps</div>
           </div>
         </div>
       </div>
@@ -443,7 +446,7 @@
 
   <!-- SESSIONS TAB -->
   <div id="tab-sessions" class="tab-panel">
-    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1250 kcal active | 14.1k steps</div>
+    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1250 kcal active | 14.9k steps</div>
     <div class="sec-label">Most Recent Sessions</div>
     <div class="session-card"><div class="session-header"><div class="session-title">Outdoor Walk</div><div class="session-dist">15 apr · 1:46pm | 1h 16min | 7.2km</div></div><div style="font-size:12px;color:var(--muted);">HR avg 98 | max 110 | 474 kcal active</div></div>
 <div class="session-card"><div class="session-header"><div class="session-title">Traditional Strength Training</div><div class="session-dist">15 apr · 5:31am | 1h 26min</div></div><div style="font-size:12px;color:var(--muted);">HR avg 104 | max 155 | 442 kcal active</div></div>
@@ -507,7 +510,7 @@ const hrLabels=["0:05", "0:10", "0:20", "0:25", "0:30", "0:40", "0:45", "0:55", 
 const hrValues=[63, 64, 63, 62, 65, 71, 68, 69, 63, 66, 67, 68, 68, 64, 61, 62, 59, 64, 66, 66, 66, 66, 66, 64, 58, 60, 60, 59, 60, 61, 60, 57, 59, 62, 63, 72, 69, 72, 70, 63, 64, 63, 63, 63, 64, 66, 66, 64, 68, 73, 68, 71, 85, 93, 84, 85, 88, 93, 97, 87, 92, 105, 110, 105, 99, 111, 121, 111, 116, 118, 111, 107, 109, 97, 78, 77, 77, 77, 74, 72, 73, 67, 72, 71, 68, 70, 71, 68, 92, 85, 73, 69, 69, 74, 75, 77, 79, 72, 76, 78, 82, 79, 74, 73, 72, 71, 69, 71, 71, 75, 72, 71, 71, 70, 73, 72, 106, 69, 68, 72, 71, 70, 69, 95, 89, 84, 77, 76, 73, 69, 69, 69, 70, 94, 96, 97, 98, 99, 99, 97, 101, 101, 99, 98, 94, 97, 99, 102, 99, 92, 71, 68, 71, 69, 70, 70, 71, 72, 72, 71, 75, 72, 71, 66, 67, 66, 69, 63, 64, 75, 65, 66, 66, 63, 74, 82, 82, 84, 73, 74, 62, 62, 60, 61, 63, 59, 61, 61, 77, 90, 75, 64, 69, 68];
 const sleepLabels=["17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr"];
 const sleepNightly=[6.7, 5.8, 8.4, 7.8, 7.0, 8.0, 6.3, 7.2, 7.4, 7.4, 7.6, 6.5, 7.9, 9.0, 7.3, 7.4, 6.3, 6.1, 7.5, 7.0, 8.7, 6.6, 7.2, 2.9, 9.0, 6.9, 7.1, 8.4, 7.3, 7.2];
-const sleepDebt=[0.8, 2.5, 1.6, 1.2, 1.7, 1.2, 2.4, 2.6, 2.7, 2.8, 2.7, 3.7, 3.3, 1.9, 2.0, 2.2, 3.4, 4.8, 4.8, 5.3, 4.1, 5.0, 5.4, 9.9, 8.5, 9.0, 9.4, 8.5, 8.7, 9.0];
+const sleepDebt=[0.5, 1.9, 0.7, 0.0, 0.2, -0.6, 0.3, 0.2, -0.0, -0.2, -0.6, 0.1, -0.6, -2.3, -2.5, -2.6, -1.7, -0.6, -0.9, -0.7, -2.2, -1.6, -1.5, 2.7, 1.0, 1.2, 1.3, 0.1, -0.0, -0.0];
 const gridColor='rgba(255,255,255,0.05)';
 const tickColor='#4b5563';
 const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
