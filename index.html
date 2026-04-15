@@ -140,7 +140,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Wednesday 15 April 2026</div>
-      <div class="updated-tag">Updated: 4:14 PM</div>
+      <div class="updated-tag">Updated: 4:20 PM</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
       <button onclick="hardRefresh()" style="display:flex;align-items:center;gap:6px;background:rgba(34,201,138,0.12);border:1px solid rgba(34,201,138,0.25);color:#22c98a;border-radius:99px;padding:8px 16px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;letter-spacing:.04em;" title="Reload to get latest data">
@@ -148,9 +148,9 @@
         Refresh
       </button>
       <div class="header-badges">
-        <span class="badge badge-green">HRV 83ms</span>
+        <span class="badge badge-green">HRV 46ms</span>
         <span class="badge badge-amber">Strain 8.3/21</span>
-        <span class="badge badge-green">Recovery 93%</span>
+        <span class="badge badge-green">Recovery 90%</span>
       </div>
     </div>
   </div>
@@ -161,7 +161,6 @@
     <button class="tab-btn" onclick="switchTab('exertion',this)">Exertion</button>
     <button class="tab-btn" onclick="switchTab('energy',this)">Net energy</button>
     <button class="tab-btn" onclick="switchTab('sessions',this)">Sessions</button>
-    <button class="tab-btn" onclick="switchTab('running',this)">Running</button>
   </div>
 
   <!-- RECOVERY TAB -->
@@ -171,9 +170,9 @@
         <svg width="110" height="110" viewBox="0 0 110 110">
           <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
           <circle cx="55" cy="55" r="46" fill="none" stroke="#22c98a" stroke-width="9"
-            stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="20.2"
+            stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="28.9"
             transform="rotate(-90 55 55)" style="filter:drop-shadow(0 0 6px #22c98a66)"/>
-          <text x="55" y="50" text-anchor="middle" font-size="24" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">93</text>
+          <text x="55" y="50" text-anchor="middle" font-size="24" font-weight="700" fill="#f0f2f5" font-family="Syne,sans-serif">90</text>
           <text x="55" y="65" text-anchor="middle" font-size="9" fill="#6b7280" font-family="DM Mono,monospace">recovery %</text>
         </svg>
         <div class="ring-label">Recovery</div>
@@ -215,8 +214,8 @@
         </div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#f0f2f5;line-height:1;">3.2k</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:2px;">13.0k total · 9.8k workout</div>
+        <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#f0f2f5;line-height:1;">12.2k</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px;">0.8k excl. Traditional Strength Training</div>
       </div>
     </div>
 
@@ -228,8 +227,8 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">HRV</div>
-        <div class="metric-value highlight">83</div>
-        <div class="metric-unit">ms<span style="color:#22c98a;font-size:11px;"> ↑ +34.1ms vs avg</span></div>
+        <div class="metric-value highlight">46</div>
+        <div class="metric-unit">ms<span style="color:#ef5350;font-size:11px;"> ↓ -2.2ms vs avg</span></div>
       </div>
       <div class="metric-card">
         <div class="metric-label">SpO&#8322;</div>
@@ -263,13 +262,13 @@
 
     <div class="insights">
       <div class="insight green">
-        <strong>HRV 83ms</strong><span style="color:#22c98a;font-size:11px;"> ↑ +34.1ms vs avg</span> (your avg 49ms) &mdash; recovery score 93%. Use this readiness for a quality session today.
+        <strong>HRV 46ms</strong><span style="color:#ef5350;font-size:11px;"> ↓ -2.2ms vs avg</span> (your avg 49ms) &mdash; recovery score 90%. Use this readiness for a quality session today.
       </div>
       <div class="insight">
         Sleep: 0.9h deep + 1.8h REM + 4.6h core = 7.2h total<span style="color:#22c98a;font-size:11px;"> ↑ +0.9h vs avg</span>. Room to improve — prioritise an earlier bedtime.
       </div>
       <div class="insight">
-        Strain 8.3/21 (light) from 2 sessions. Active burn 1126 kcal &middot; 3.2k steps.
+        Strain 8.3/21 (light) from 2 sessions. Active burn 1126 kcal &middot; 12.2k steps.
       </div>
       <div class="insight" style="font-size:11px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px;">
         Your personal baselines (computed from 2025–2026 data): HRV 49ms &middot; RHR 63bpm &middot; Sleep 6.3h
@@ -321,16 +320,16 @@
           <div>
             <div style="font-size:14px;font-weight:700;color:#22c98a;">Light</div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">2 sessions logged</div>
-            <div style="font-size:11px;color:var(--muted);">1126 kcal &middot; 3.2k steps</div>
+            <div style="font-size:11px;color:var(--muted);">1126 kcal &middot; 12.2k steps</div>
           </div>
         </div>
       </div>
       <div style="background:var(--surface);border:1px solid rgba(91,156,246,0.3);border-radius:var(--r-lg);padding:16px;">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#5b9cf6;margin-bottom:8px;">Today's target</div>
-        <div style="font-size:22px;font-weight:700;color:#5b9cf6;">15.4–18.4</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">HRV well above your avg — go harder today</div>
+        <div style="font-size:22px;font-weight:700;color:#5b9cf6;">11.9–14.9</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">slightly below baseline — keep it controlled</div>
         <div style="margin-top:8px;font-size:11px;color:var(--muted);">
-          Still needed: <strong style='color:#f0f2f5;'>+7.1 strain</strong>
+          Still needed: <strong style='color:#f0f2f5;'>+3.6 strain</strong>
         </div>
       </div>
     </div>
@@ -344,9 +343,9 @@
     
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-top:16px;">
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Suggested workouts to reach target</div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">Cycling · 59min · avg HR ~125bpm → +7.1 strain</div>
-<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">High Intensity Interval Training · 37min · avg HR ~144bpm → +7.1 strain</div>
-<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">Indoor Run · 37min · avg HR ~154bpm → +7.1 strain</div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">Cycling · 30min · avg HR ~125bpm → +3.6 strain</div>
+<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">High Intensity Interval Training · 19min · avg HR ~144bpm → +3.6 strain</div>
+<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);line-height:1.5;">Indoor Cycling · 30min · avg HR ~124bpm → +3.6 strain</div>
     </div>
     
 
@@ -360,6 +359,25 @@
         </div>
       </div>
       <div style="position:relative;height:160px;"><canvas id="strainChart"></canvas></div>
+    </div>
+
+    <!-- Body composition -->
+    <div class="metrics-grid" style="margin-top:16px;">
+      <div class="metric-card">
+        <div class="metric-label">VO2 Max</div>
+        <div class="metric-value highlight">49.7</div>
+        <div class="metric-unit">ml/kg/min</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Body fat</div>
+        <div class="metric-value">18.2%</div>
+        <div class="metric-unit">163.6 lb</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Lean mass</div>
+        <div class="metric-value">133.8</div>
+        <div class="metric-unit">lb</div>
+      </div>
     </div>
   </div>
 
@@ -425,45 +443,13 @@
 
   <!-- SESSIONS TAB -->
   <div id="tab-sessions" class="tab-panel">
-    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1126 kcal active | 3.2k steps</div>
+    <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1126 kcal active | 12.2k steps</div>
     <div class="sec-label">Most Recent Sessions</div>
     <div class="session-card"><div class="session-header"><div class="session-title">Outdoor Walk</div><div class="session-dist">15 apr · 1:46pm | 1h 16min | 7.2km</div></div><div style="font-size:12px;color:var(--muted);">HR avg 98 | max 110 | 474 kcal active</div></div>
 <div class="session-card"><div class="session-header"><div class="session-title">Traditional Strength Training</div><div class="session-dist">15 apr · 5:31am | 1h 26min</div></div><div style="font-size:12px;color:var(--muted);">HR avg 104 | max 155 | 442 kcal active</div></div>
   </div>
 
   <!-- RUNNING TAB -->
-  <div id="tab-running" class="tab-panel">
-    <div class="sec-label">Race time predictions</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;font-family:'DM Mono',monospace;">Based on VO2 Max 49.7 ml/kg/min</div>
-    <div class="race-grid">
-      <div class="race-card"><div class="race-dist">5K</div><div class="race-time">1:16:16</div></div>
-      <div class="race-card"><div class="race-dist">10K</div><div class="race-time">2:40:23</div></div>
-      <div class="race-card featured"><div class="race-dist" style="color:#5b9cf6;">Half marathon</div><div class="race-time">6:01:35</div></div>
-    </div>
-    <div class="metrics-grid" style="margin-top:4px;">
-      <div class="metric-card">
-        <div class="metric-label">VO2 Max</div>
-        <div class="metric-value highlight">49.7</div>
-        <div class="metric-unit">ml/kg/min</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Body fat</div>
-        <div class="metric-value">18.2%</div>
-        <div class="metric-unit">163.6 lb</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Lean mass</div>
-        <div class="metric-value">133.8</div>
-        <div class="metric-unit">lb</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Steps</div>
-        <div class="metric-value">3.2k</div>
-        <div class="metric-unit">excl. workouts</div>
-      </div>
-    </div>
-    
-  </div>
 
 </div>
 <script>
