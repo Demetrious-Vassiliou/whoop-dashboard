@@ -140,7 +140,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Wednesday 15 April 2026</div>
-      <div class="updated-tag">Updated: 8:07 PM</div>
+      <div class="updated-tag">Updated: 8:14 PM</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
       <button onclick="hardRefresh()" style="display:flex;align-items:center;gap:6px;background:rgba(34,201,138,0.12);border:1px solid rgba(34,201,138,0.25);color:#22c98a;border-radius:99px;padding:8px 16px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;letter-spacing:.04em;" title="Reload to get latest data">
@@ -160,7 +160,7 @@
     <button class="tab-btn active" onclick="switchTab('recovery',this)">Recovery</button>
     <button class="tab-btn" onclick="switchTab('exertion',this)">Exertion</button>
     <button class="tab-btn" onclick="switchTab('energy',this)">Net energy</button>
-    <button class="tab-btn" onclick="switchTab('sessions',this)">Sessions</button>
+    <button class="tab-btn" onclick="switchTab('sessions',this)">Workouts</button>
   </div>
 
   <!-- RECOVERY TAB -->
@@ -215,30 +215,49 @@
       </div>
       <div style="text-align:right;">
         <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#f5a623;line-height:1;filter:drop-shadow(0 0 6px #f5a62355);">14.9k</div>
-        <div style="font-size:10px;color:#f5a623;margin-top:2px;opacity:0.8;">good &middot; walks included</div>
       </div>
     </div>
 
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="metric-label">Resting HR</div>
-        <div class="metric-value highlight">61</div>
-        <div class="metric-unit">bpm<span style="color:#22c98a;font-size:11px;"> ↓ -2.0bpm vs avg</span></div>
+        <div class="metric-value" style="color:#22c98a;">61</div>
+        <div class="metric-unit">bpm</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">HRV</div>
-        <div class="metric-value highlight">46</div>
-        <div class="metric-unit">ms<span style="color:#ef5350;font-size:11px;"> ↓ -2.9ms vs avg</span></div>
+        <div class="metric-value" style="color:#ef5350;">46</div>
+        <div class="metric-unit">ms</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">SpO&#8322;</div>
-        <div class="metric-value">94.0%</div>
+        <div class="metric-value" style="color:#ef5350;">94.0%</div>
         <div class="metric-unit">blood oxygen</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">Resp rate</div>
-        <div class="metric-value">12.5</div>
+        <div class="metric-value" style="color:#22c98a;">12.5</div>
         <div class="metric-unit">breaths / min</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">VO2 Max</div>
+        <div class="metric-value" style="color:#ef5350;">49.7</div>
+        <div class="metric-unit">ml/kg/min</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Body fat</div>
+        <div class="metric-value" style="color:#22c98a;">18.2%</div>
+        <div class="metric-unit">163.6 lb</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Lean mass</div>
+        <div class="metric-value" style="color:#22c98a;">133.8</div>
+        <div class="metric-unit">lb</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Weight</div>
+        <div class="metric-value" style="color:#f0f2f5;">163.6</div>
+        <div class="metric-unit">lb</div>
       </div>
     </div>
 
@@ -295,7 +314,7 @@
           <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#5b9cf6;margin-bottom:6px;">Tonight's target</div>
           <div style="display:flex;align-items:baseline;justify-content:center;gap:10px;">
             <div style="font-size:24px;font-weight:700;color:#5b9cf6;">7.5h</div>
-            <div style="font-size:13px;font-weight:600;color:#5b9cf6;opacity:0.85;">bed by 22:56</div>
+            <div style="font-size:13px;font-weight:600;color:#5b9cf6;opacity:0.85;">bed by 23:00</div>
           </div>
           <div style="font-size:10px;color:var(--muted);margin-top:4px;">0.25h for today's exertion added</div>
         </div>
@@ -364,24 +383,6 @@
       <div style="position:relative;height:160px;"><canvas id="strainChart"></canvas></div>
     </div>
 
-    <!-- Body composition -->
-    <div class="metrics-grid" style="margin-top:16px;">
-      <div class="metric-card">
-        <div class="metric-label">VO2 Max</div>
-        <div class="metric-value highlight">49.7</div>
-        <div class="metric-unit">ml/kg/min</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Body fat</div>
-        <div class="metric-value">18.2%</div>
-        <div class="metric-unit">163.6 lb</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Lean mass</div>
-        <div class="metric-value">133.8</div>
-        <div class="metric-unit">lb</div>
-      </div>
-    </div>
   </div>
 
   <!-- ENERGY TAB -->
@@ -447,7 +448,7 @@
   <!-- SESSIONS TAB -->
   <div id="tab-sessions" class="tab-panel">
     <div class="status-note"><strong>Latest volume:</strong> 2 sessions logged | Strain 8.3/21 | 1250 kcal active | 14.9k steps</div>
-    <div class="sec-label">Most Recent Sessions</div>
+    <div class="sec-label">Most Recent Workouts</div>
     <div class="session-card"><div class="session-header"><div class="session-title">Outdoor Walk</div><div class="session-dist">15 apr · 1:46pm | 1h 16min | 7.2km</div></div><div style="font-size:12px;color:var(--muted);">HR avg 98 | max 110 | 474 kcal active</div></div>
 <div class="session-card"><div class="session-header"><div class="session-title">Traditional Strength Training</div><div class="session-dist">15 apr · 5:31am | 1h 26min</div></div><div style="font-size:12px;color:var(--muted);">HR avg 104 | max 155 | 442 kcal active</div></div>
   </div>
