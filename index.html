@@ -232,7 +232,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Thursday 16 April 2026</div>
-      <div class="updated-tag">Updated: 4:26 PM</div>
+      <div class="updated-tag">Updated: 4:29 PM</div>
       
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
@@ -528,7 +528,7 @@
 
     <div class="chart-container">
       <div class="chart-header">
-        <div class="chart-title">Net energy &middot; last 7 days</div>
+        <div class="chart-title" id="netChartTitle">Net energy &middot; last 7 days</div>
         <div class="chart-legend">
           <div class="legend-item"><div class="legend-dot" style="background:#5b9cf6;height:3px;border-radius:2px;"></div>Strain /21</div>
           <div class="legend-item"><div class="legend-dot" style="background:#22c98a;opacity:.7;"></div>Deficit</div>
@@ -715,6 +715,7 @@ function selPeriod(i,el){
   document.querySelectorAll('.energy-detail').forEach(d=>d.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('ed'+i).classList.add('active');
+  updateNetChart(i);
 }
 const NTFY_TOPIC='whoop-dv-49g7j931';
 const SPIN_SVG='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 0.8s linear infinite"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>';
@@ -754,8 +755,14 @@ async function hardRefresh(){
 const L14=["18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"];
 const S14=[6.5, 8.9, 11.0, 9.6, 21.0, 2.8, 14.4, 10.7, 10.0, 11.5, 11.8, 14.2, 2.9, 13.7, 5.5, 18.9, 21.0, 10.4, 6.6, 9.7, 12.3, 15.7, 11.3, 21.0, 4.4, 16.0, 18.2, 9.3, 8.3, 12.7];
 const N14=[-435, -628, -374, -516, -594, -564, -650, -466, -672, -340, -244, -187, -812, -710, -965, -271, -1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1037, -896, -295];
-const N7=[-1378, -612, -1076, -1319, -1037, -896, -295];
-const L7=["10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"];
+// Net energy chart data per period
+const NET_DATA={
+  0:{labels:["10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"],net:[-1378, -612, -1076, -1319, -1037, -896, -295],title:'Net energy · last 7 days'},
+  1:{labels:["14 Apr", "15 Apr", "16 Apr"],net:[-1037, -896, -295],title:'Net energy · last 3 days'},
+  2:{labels:["10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"],net:[-1378, -612, -1076, -1319, -1037, -896, -295],title:'Net energy · last 7 days'},
+  3:{labels:["3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"],net:[-1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1037, -896, -295],title:'Net energy · last 14 days'},
+  4:{labels:["18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"],net:[-435, -628, -374, -516, -594, -564, -650, -466, -672, -340, -244, -187, -812, -710, -965, -271, -1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1037, -896, -295],title:'Net energy · last 30 days'},
+};
 const hrLabels=["0:00", "0:05", "0:10", "0:15", "0:20", "0:25", "0:30", "0:35", "0:40", "0:45", "0:50", "0:55", "1:00", "1:10", "1:15", "1:20", "1:25", "1:30", "1:35", "1:40", "1:45", "1:50", "1:55", "2:00", "2:05", "2:10", "2:15", "2:20", "2:25", "2:30", "2:35", "2:40", "2:50", "2:55", "3:00", "3:05", "3:10", "3:15", "3:25", "3:30", "3:35", "3:40", "3:45", "3:50", "3:55", "4:00", "4:10", "4:15", "4:20", "4:25", "4:30", "4:35", "4:40", "4:45", "4:50", "4:55", "5:05", "5:10", "5:15", "5:20", "5:25", "5:30", "5:35", "5:40", "5:45", "5:50", "5:55", "6:00", "6:05", "6:10", "6:15", "6:20", "6:25", "6:30", "6:35", "6:40", "6:45", "6:50", "6:55", "7:05", "7:10", "7:15", "7:20", "7:25", "7:30", "7:40", "7:45", "7:50", "7:55", "8:00", "8:05", "8:10", "8:15", "8:20", "8:25", "8:30", "8:35", "8:40", "8:45", "8:50", "8:55", "9:00", "9:05", "9:10", "9:15", "9:20", "9:25", "9:35", "9:40", "9:45", "9:50", "10:00", "10:10", "10:15", "10:20", "10:25", "10:40", "11:45", "11:50", "12:05", "12:10", "12:15", "12:20", "12:25", "12:35", "12:40", "12:45", "12:50", "12:55", "13:00", "13:05", "13:10", "13:15", "13:20", "13:25", "13:30", "13:35", "13:40", "13:45", "13:50", "13:55", "14:00", "14:10", "14:15", "14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50", "14:55", "15:00", "15:05", "15:10", "15:15", "15:50", "15:55", "16:00"];
 const hrValues=[63, 60, 58, 59, 68, 66, 76, 63, 66, 68, 59, 65, 58, 62, 62, 66, 62, 60, 60, 63, 63, 63, 64, 61, 59, 59, 60, 59, 72, 72, 71, 64, 67, 63, 60, 63, 66, 63, 63, 63, 63, 63, 61, 68, 67, 67, 61, 58, 64, 64, 59, 65, 64, 68, 69, 98, 96, 90, 68, 112, 136, 111, 102, 106, 104, 103, 110, 104, 109, 102, 105, 109, 102, 111, 131, 134, 102, 84, 84, 82, 80, 80, 81, 80, 76, 86, 103, 102, 100, 77, 96, 98, 98, 101, 111, 105, 99, 101, 97, 96, 97, 92, 82, 87, 81, 84, 75, 74, 76, 79, 79, 76, 84, 76, 76, 76, 75, 79, 103, 95, 100, 100, 91, 84, 74, 76, 79, 77, 101, 102, 104, 105, 104, 102, 102, 99, 88, 73, 76, 71, 73, 71, 74, 85, 71, 70, 73, 92, 86, 91, 95, 92, 93, 97, 93, 92, 91, 91, 82];
 const sleepLabels=["18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"];
@@ -782,14 +789,23 @@ new Chart(document.getElementById('strainChart'),{
   options:{...base,scales:{x:{grid:{display:false},ticks:{color:tickColor,font:{size:9}}},y:{min:0,max:21,grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4}}}}
 });
 
-new Chart(document.getElementById('netChart'),{
+const netChart=new Chart(document.getElementById('netChart'),{
   type:'bar',
-  data:{labels:L7,datasets:[
-    {data:N7.map(v=>v<0?Math.abs(v):0),backgroundColor:'rgba(34,201,138,0.5)',borderRadius:3,label:'Deficit'},
-    {data:N7.map(v=>v>=0?v:0),backgroundColor:'rgba(245,166,35,0.5)',borderRadius:3,label:'Surplus'}
+  data:{labels:NET_DATA[0].labels,datasets:[
+    {data:NET_DATA[0].net.map(v=>v<0?Math.abs(v):0),backgroundColor:'rgba(34,201,138,0.5)',borderRadius:3,label:'Deficit'},
+    {data:NET_DATA[0].net.map(v=>v>=0?v:0),backgroundColor:'rgba(245,166,35,0.5)',borderRadius:3,label:'Surplus'}
   ]},
   options:{...base,scales:{x:{grid:{display:false},ticks:{color:tickColor,font:{size:10}}},y:{grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:4}}}}
 });
+function updateNetChart(i){
+  const d=NET_DATA[i];
+  netChart.data.labels=d.labels;
+  netChart.data.datasets[0].data=d.net.map(v=>v<0?Math.abs(v):0);
+  netChart.data.datasets[1].data=d.net.map(v=>v>=0?v:0);
+  netChart.update();
+  const t=document.getElementById('netChartTitle');
+  if(t) t.textContent=d.title;
+}
 
 // ── Athletic Age Model ─────────────────────────────────────────────────────────
 const AA_DATA={"chronological_age": 39, "athletic_age": 35, "years_diff": 4, "metrics": [{"key": "vo2max", "label": "VO\u2082 Max", "value": 49.8, "unit": "ml/kg/min", "age_eq": 32, "weight": 0.25, "diff": 7}, {"key": "hrv", "label": "Avg HRV", "value": 49, "unit": "ms", "age_eq": 38, "weight": 0.2, "diff": 1}, {"key": "rhr", "label": "Avg RHR", "value": 63, "unit": "bpm", "age_eq": 49, "weight": 0.15, "diff": -10}, {"key": "sleep", "label": "Avg Sleep", "value": 7.3, "unit": "h/night", "age_eq": 30, "weight": 0.1, "diff": 9}, {"key": "steps", "label": "Avg Steps", "value": 140008, "unit": "steps/wk", "age_eq": 24, "weight": 0.1, "diff": 15}, {"key": "z2", "label": "Z2 Aerobic", "value": 453, "unit": "min/mo", "age_eq": 30, "weight": 0.08, "diff": 9}, {"key": "strength", "label": "Strength", "value": 2075, "unit": "min/mo", "age_eq": 25, "weight": 0.07, "diff": 14}, {"key": "z4", "label": "Z4 Threshold", "value": 24, "unit": "min/mo", "age_eq": 37, "weight": 0.05, "diff": 2}, {"key": "sleep_con", "label": "Sleep Consistency", "value": 0.83, "unit": "h \u03c3", "age_eq": 39, "weight": 0.05, "diff": 0}]};
