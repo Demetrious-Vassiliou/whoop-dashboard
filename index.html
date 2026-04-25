@@ -232,7 +232,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Saturday 25 April 2026</div>
-      <div class="updated-tag">Updated: 2:29 PM</div>
+      <div class="updated-tag">Updated: 6:48 PM</div>
       
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
@@ -597,8 +597,8 @@
       <div class="chart-header">
         <div class="chart-title">30-day recovery history</div>
         <div class="chart-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#22c98a;"></div>Green &ge;75</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#f5a623;"></div>Amber 45&ndash;74</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c98a;"></div>Green &ge;71</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f5a623;"></div>Amber 50&ndash;70</div>
           <div class="legend-item"><div class="legend-dot" style="background:#ef5350;"></div>Red &lt;45</div>
           <div class="legend-item"><div class="legend-dot" style="background:rgba(91,156,246,0.3);border:1px solid rgba(91,156,246,0.6);"></div>Strain</div>
         </div>
@@ -801,7 +801,7 @@ new Chart(document.getElementById('strainChart'),{
 
 // ── 30-day Recovery History chart ────────────────────────────────────────────
 (function(){
-  const recColors = R30.map(v=>v===null?'rgba(0,0,0,0)':v>=75?'rgba(34,201,138,0.85)':v>=45?'rgba(245,166,35,0.85)':'rgba(239,83,80,0.85)');
+  const recColors = R30.map(v=>v===null?'rgba(0,0,0,0)':v>=71?'rgba(34,201,138,0.85)':v>=50?'rgba(245,166,35,0.85)':'rgba(239,83,80,0.85)');
   // Strain background bars: scaled to 0-100 axis (strain 21 → 100)
   const strainBg  = S14.map(v=>v? Math.round(v/21*100):0);
   // 30-day average as constant dataset
@@ -851,7 +851,7 @@ new Chart(document.getElementById('strainChart'),{
               if(ctx.datasetIndex===1){
                 const v=R30[ctx.dataIndex];
                 if(v===null) return 'Recovery: no data';
-                const lbl=v>=75?'Green':v>=45?'Amber':'Red';
+                const lbl=v>=71?'Green':v>=50?'Amber':'Red';
                 return 'Recovery: '+v+'% ('+lbl+')';
               }
               return '30d avg: '+R30_AVG+'%';
