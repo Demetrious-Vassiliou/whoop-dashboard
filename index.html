@@ -232,7 +232,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Sunday 26 April 2026</div>
-      <div class="updated-tag">Updated: 12:33 PM</div>
+      <div class="updated-tag">Updated: 12:53 PM</div>
       
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
@@ -346,6 +346,11 @@
         <div class="metric-unit">kg &middot; This week</div>
         <div style="font-size:10px;color:var(--muted);margin-top:3px;">vs 73.0kg last month</div>
       </div>
+      <div class="metric-card">
+        <div class="metric-label">Sleep time</div>
+        <div class="metric-value" style="color:#22c98a;">7.5<span style="font-size:13px;font-weight:400;color:var(--muted);margin-left:2px;">h</span></div>
+        <div class="metric-unit">last night &middot; avg 6.3h</div>
+      </div>
     </div>
 
     <div class="sec-label">Sleep breakdown</div>
@@ -354,6 +359,18 @@
       <div class="sleep-card"><div class="sleep-val" style="color:#ef5350;">1.7h</div><div class="sleep-stage">REM</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 1.8h</div></div>
       <div class="sleep-card"><div class="sleep-val" style="color:#ef5350;">4.9h</div><div class="sleep-stage">Core</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 4.9h</div></div>
       <div class="sleep-card"><div class="sleep-val" style="color:#ef5350;">32m</div><div class="sleep-stage">Awake</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">avg 17m</div></div>
+    </div>
+
+    <!-- Sleep consistency chart -->
+    <div class="chart-container" style="margin-top:16px;">
+      <div class="chart-header">
+        <div class="chart-title">Sleep consistency &middot; 30 days</div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div class="legend-item"><div class="legend-dot" style="background:#5b9cf6;border-radius:50%;width:8px;height:8px;"></div><span style="font-size:10px;color:var(--muted);">Wake</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;border-radius:50%;width:8px;height:8px;"></div><span style="font-size:10px;color:var(--muted);">Bedtime</span></div>
+        </div>
+      </div>
+      <div style="position:relative;height:160px;"><canvas id="sleepConsistencyChart"></canvas></div>
     </div>
 
     <div class="chart-container">
@@ -773,6 +790,10 @@ const S14=[10.6, 11.4, 3.4, 11.2, 7.2, 10.9, 14.1, 8.6, 7.8, 8.0, 9.8, 11.5, 9.2
 const N14=[-190, -220, -790, -613, -918, -71, -1340, 854, -1274, -621, -1052, -942, -1012, -1266, -665, -1011, -1227, -940, -795, -298, -1075, -1393, -1013, -793, -722, -1108, -305, -1633, -142, -633];
 const R30=[78, 42, 64, 58, 80, 45, 30, 76, 73, 94, 43, 50, 55, 79, 68, 46, 39, 71, 48, 74, 89, 84, 53, 70, 65, 66, 58, 72, 28, 60];
 const R30_AVG=62;
+// Sleep consistency data (30 days)
+const SC_LABELS=["28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr", "17 Apr", "18 Apr", "19 Apr", "20 Apr", "21 Apr", "22 Apr", "23 Apr", "24 Apr", "25 Apr", "26 Apr"];
+const SC_WAKE=[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {"x": 18, "y": 13.65}, {"x": 19, "y": 8.97}, {"x": 20, "y": 11.22}, {"x": 21, "y": 12.97}, {"x": 22, "y": 13.35}, {"x": 23, "y": 13.52}, {"x": 24, "y": 13.53}, {"x": 25, "y": 10.48}, {"x": 26, "y": 13.48}, {"x": 27, "y": 10.95}, {"x": 28, "y": 11.23}, {"x": 29, "y": 13.42}];
+const SC_BED=[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {"x": 18, "y": 6.41}, {"x": 19, "y": 2.47}, {"x": 20, "y": 3.64}, {"x": 21, "y": 5.44}, {"x": 22, "y": 6.69}, {"x": 23, "y": 5.37}, {"x": 24, "y": 6.47}, {"x": 25, "y": 3.58}, {"x": 26, "y": 5.43}, {"x": 27, "y": 3.1}, {"x": 28, "y": 5.09}, {"x": 29, "y": 5.9}];
 // Net energy chart data per period
 const NET_DATA={
   0:{labels:["19 Apr", "20 Apr", "21 Apr", "22 Apr", "23 Apr", "24 Apr", "25 Apr"],net:[-1013, -793, -722, -1108, -305, -1633, -142],title:'Net energy · last 7 days'},
@@ -870,6 +891,97 @@ new Chart(document.getElementById('strainChart'),{
       scales:{
         x:{grid:{display:false},ticks:{color:tickColor,font:{size:9}}},
         y:{min:0,max:100,grid:{color:gridColor},ticks:{color:tickColor,font:{size:9},maxTicksLimit:5,callback:(v)=>v+'%'}}
+      }
+    }
+  });
+})();
+
+// ── Sleep consistency chart (bedtime + wake scatter, 30 days) ─────────────────
+(function(){
+  const el=document.getElementById('sleepConsistencyChart');
+  if(!el) return;
+  // Filter nulls from both series
+  const wakeFiltered = SC_WAKE.filter(p=>p!==null);
+  const bedFiltered  = SC_BED.filter(p=>p!==null);
+  if(wakeFiltered.length===0 && bedFiltered.length===0) return;
+
+  // Y-axis tick labels: (h - 20) % 24 mapping
+  // 0 → 8pm, 2 → 10pm, 4 → midnight, 6 → 2am, 8 → 4am, 10 → 6am, 12 → 8am
+  const yTickMap={0:'8pm',1:'9pm',2:'10pm',3:'11pm',4:'12am',5:'1am',6:'2am',7:'3am',8:'4am',9:'5am',10:'6am',11:'7am',12:'8am'};
+  function yToTime(y){
+    const h=(y+20)%24;
+    const hh=Math.floor(h);
+    const mm=Math.round((h-hh)*60);
+    const suffix=hh>=12&&hh<24?'pm':'am';
+    const disp=hh%12||12;
+    return disp+(mm?':'+String(mm).padStart(2,'0'):'')+suffix;
+  }
+
+  new Chart(el,{
+    type:'scatter',
+    data:{
+      datasets:[
+        {
+          label:'Wake',
+          data: wakeFiltered,
+          backgroundColor:'rgba(91,156,246,0.85)',
+          pointRadius:5,
+          pointHoverRadius:7,
+          order:1
+        },
+        {
+          label:'Bedtime',
+          data: bedFiltered,
+          backgroundColor:'rgba(167,139,250,0.85)',
+          pointRadius:5,
+          pointHoverRadius:7,
+          order:2
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:(ctx)=>{
+              const lbl=ctx.dataset.label;
+              const y=ctx.parsed.y;
+              return lbl+': '+yToTime(y);
+            }
+          }
+        }
+      },
+      scales:{
+        x:{
+          type:'linear',
+          min:-0.5,
+          max:SC_LABELS.length-0.5,
+          grid:{display:false},
+          ticks:{
+            color:tickColor,
+            font:{size:9},
+            maxTicksLimit:10,
+            callback:(v)=>{
+              const i=Math.round(v);
+              if(i>=0&&i<SC_LABELS.length&&v===i) return SC_LABELS[i];
+              return '';
+            }
+          }
+        },
+        y:{
+          min:0,
+          max:14,
+          grid:{color:gridColor},
+          ticks:{
+            color:tickColor,
+            font:{size:9},
+            stepSize:1,
+            callback:(v)=>yTickMap[v]||''
+          }
+        }
       }
     }
   });
