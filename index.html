@@ -232,7 +232,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Saturday 2 May 2026</div>
-      <div class="updated-tag">Updated: 6:26 AM</div>
+      <div class="updated-tag">Updated: 8:56 AM</div>
       
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
@@ -308,7 +308,7 @@
         </div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#ef5350;line-height:1;filter:drop-shadow(0 0 6px #ef535055);">0.1k</div>
+        <div style="font-size:28px;font-weight:700;font-family:'Syne',sans-serif;color:#ef5350;line-height:1;filter:drop-shadow(0 0 6px #ef535055);">2.0k</div>
       </div>
     </div>
 
@@ -365,7 +365,7 @@
       <div class="chart-header">
         <div class="chart-title">Heart rate &middot; today</div>
         <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">
-          min 60 &middot; max 76 &middot; avg 68
+          min 60 &middot; max 130 &middot; avg 81
         </div>
       </div>
       <div style="position:relative;height:140px;"><canvas id="hrChart"></canvas></div>
@@ -382,7 +382,7 @@
         Sleep: 0.6h deep + 1.1h REM + 3.5h core = 5.1h total<span style="color:#ef5350;font-size:11px;"> ↓ -1.2h vs avg</span>. Room to improve — prioritise an earlier bedtime.
       </div>
       <div class="insight">
-        Strain 0.0/21 (recovery) from 0 sessions. Active burn 14 kcal &middot; 0.1k steps.
+        Strain 0.0/21 (recovery) from 0 sessions. Active burn 505 kcal &middot; 2.0k steps.
       </div>
       <div class="insight" style="font-size:11px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px;">
         Your personal baselines (computed from 2025–2026 data): HRV 49ms &middot; RHR 63bpm &middot; Sleep 6.3h
@@ -410,7 +410,7 @@
           <div>
             <div style="font-size:14px;font-weight:700;color:#6b7280;">Recovery</div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">0 sessions logged</div>
-            <div style="font-size:11px;color:var(--muted);">14 kcal &middot; 0.1k steps</div>
+            <div style="font-size:11px;color:var(--muted);">505 kcal &middot; 2.0k steps</div>
           </div>
         </div>
       </div>
@@ -461,8 +461,8 @@
     <div class="period-tabs">
       <div class="period-card active" onclick="selPeriod(0,this)">
         <div class="period-label">Today</div>
-        <div class="period-net surplus">+172</div>
-        <div class="period-sub">surplus</div>
+        <div class="period-net deficit">298</div>
+        <div class="period-sub">deficit</div>
       </div>
       <div class="period-card" onclick="selPeriod(1,this)">
         <div class="period-label">Last 3 days</div>
@@ -495,12 +495,12 @@
       <div class="energy-card">
         <div class="energy-header">
           <div class="energy-title">Today &middot; 2 May 2026</div>
-          <span class="net-pill surplus">+172 kcal &middot; surplus</span>
+          <span class="net-pill deficit">298 kcal &middot; deficit</span>
         </div>
-        <div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">1963 <span style="color:var(--muted);font-size:10px;">(30d avg 2677)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:91%;background:#6b7280;"></div></div><div class="bar-val">1777 <span style="color:var(--muted);font-size:10px;">(30d avg 1777)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:1%;background:#ef5350;"></div></div><div class="bar-val">14 <span style="color:var(--muted);font-size:10px;">(30d avg 1703)</span></div></div>
-        <div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:91%;background:#3d4451;"></div></div><div class="bar-val">1791 <span style="color:var(--muted);font-size:10px;">(30d avg 3480)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">1984 <span style="color:var(--muted);font-size:10px;">(30d avg 2677)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:78%;background:#6b7280;"></div></div><div class="bar-val">1777 <span style="color:var(--muted);font-size:10px;">(30d avg 1777)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:22%;background:#ef5350;"></div></div><div class="bar-val">505 <span style="color:var(--muted);font-size:10px;">(30d avg 1703)</span></div></div>
+        <div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">2282 <span style="color:var(--muted);font-size:10px;">(30d avg 3480)</span></div></div>
       </div>
     </div>
     <div id="ed1" class="energy-detail"><div class="energy-card"><div class="energy-header"><div class="energy-title">Last 3 days <span style="font-size:10px;color:var(--muted);">avg/day</span></div><span class="net-pill deficit">198/day kcal</span></div><div class="bar-row"><div class="bar-lbl">Calories in</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#22c98a;"></div></div><div class="bar-val">3357 <span style="color:var(--muted);font-size:10px;">(10071 total)</span></div></div><div class="bar-row"><div class="bar-lbl">BMR (resting)</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:#6b7280;"></div></div><div class="bar-val">1777 <span style="color:var(--muted);font-size:10px;">(5331 total)</span></div></div><div class="bar-row"><div class="bar-lbl">Active burn</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:#ef5350;"></div></div><div class="bar-val">1778 <span style="color:var(--muted);font-size:10px;">(5334 total)</span></div></div><div class="bar-row" style="margin-bottom:0;"><div class="bar-lbl">Total out</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3d4451;"></div></div><div class="bar-val">3555 <span style="color:var(--muted);font-size:10px;">(10665 total)</span></div></div></div></div>
@@ -780,7 +780,7 @@ async function hardRefresh(){
 }
 const L14=["3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr", "17 Apr", "18 Apr", "19 Apr", "20 Apr", "21 Apr", "22 Apr", "23 Apr", "24 Apr", "25 Apr", "26 Apr", "27 Apr", "28 Apr", "29 Apr", "30 Apr", "1 May", "2 May"];
 const S14=[14.1, 8.6, 7.8, 8.0, 9.8, 11.5, 9.2, 13.8, 5.9, 11.1, 12.0, 8.5, 8.0, 9.0, 13.7, 13.7, 8.2, 8.1, 6.2, 11.3, 5.8, 12.8, 8.3, 9.4, 11.2, 4.3, 4.9, 9.3, 12.8, 0];
-const N14=[-1348, 846, -1282, -629, -1060, -950, -1020, -1274, -673, -1019, -1235, -1746, -803, -306, -1208, -1401, -1021, -801, -730, -1116, -313, -1641, -150, -815, -1193, 213, -745, 2268, -2117, 172];
+const N14=[-1348, 846, -1282, -629, -1060, -950, -1020, -1274, -673, -1019, -1235, -1746, -803, -306, -1208, -1401, -1021, -801, -730, -1116, -313, -1641, -150, -815, -1193, 213, -745, 2268, -2117, -298];
 const R30=[30, 76, 73, 94, 43, 50, 55, 79, 68, 46, 39, 71, 48, 74, 89, 84, 53, 70, 65, 66, 58, 72, 28, 52, 43, 57, 57, 25, 60, null];
 const R30_AVG=59;
 // Net energy chart data per period
@@ -792,8 +792,8 @@ const NET_DATA={
   4:{labels:["3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr", "17 Apr", "18 Apr", "19 Apr", "20 Apr", "21 Apr", "22 Apr", "23 Apr", "24 Apr", "25 Apr", "26 Apr", "27 Apr", "28 Apr", "29 Apr", "30 Apr", "1 May"],net:[-1348, 846, -1282, -629, -1060, -950, -1020, -1274, -673, -1019, -1235, -1746, -803, -306, -1208, -1401, -1021, -801, -730, -1116, -313, -1641, -150, -815, -1193, 213, -745, 2268, -2117],title:'Net energy · last 30 days'},
   5:{labels:["2 Feb", "3 Feb", "4 Feb", "5 Feb", "6 Feb", "7 Feb", "8 Feb", "9 Feb", "10 Feb", "11 Feb", "12 Feb", "13 Feb", "14 Feb", "15 Feb", "16 Feb", "17 Feb", "18 Feb", "19 Feb", "20 Feb", "21 Feb", "22 Feb", "23 Feb", "24 Feb", "25 Feb", "26 Feb", "27 Feb", "28 Feb", "1 Mar", "2 Mar", "3 Mar", "4 Mar", "5 Mar", "6 Mar", "7 Mar", "8 Mar", "9 Mar", "10 Mar", "11 Mar", "12 Mar", "13 Mar", "14 Mar", "15 Mar", "16 Mar", "17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar", "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar", "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr", "17 Apr", "18 Apr", "19 Apr", "20 Apr", "21 Apr", "22 Apr", "23 Apr", "24 Apr", "25 Apr", "26 Apr", "27 Apr", "28 Apr", "29 Apr", "30 Apr", "1 May"],net:[-632, -632, -632, -632, -632, -632, -632, -816, -816, -816, -816, -816, -816, -816, -416, -416, -416, -416, -416, -416, -416, -525, -525, -525, -525, -525, -525, -525, -961, -961, -961, -961, -961, -961, -961, -1538, -1538, -1538, -1538, -1538, -1538, -1538, -656, -442, -435, -628, -374, -516, -594, -564, -650, -466, -672, -340, -244, -187, -812, -710, -965, -271, -1412, 865, -1341, -693, -1088, -1055, -1072, -1378, -612, -1076, -1319, -1835, -896, -446, -1281, -1391, -1025, -897, -787, -1188, -381, -1730, -235, -919, -1236, 111, -790, 2183, -2130],title:'Net energy · last 90 days'},
 };
-const hrLabels=["0:00", "0:10", "0:15", "0:20", "0:25", "0:30", "0:35", "0:40", "0:45", "0:50", "0:55", "1:00", "1:05", "1:10", "1:15", "1:20", "1:25", "1:30", "1:35", "1:45", "1:55", "2:00", "2:05", "2:10", "2:15", "2:20", "2:25", "2:30", "2:35", "2:40", "2:45", "2:55", "3:00", "3:10", "3:15", "3:20", "3:25", "3:30", "3:35", "3:40", "3:45", "3:50", "3:55", "4:00", "4:10", "4:15", "4:20", "4:25", "4:30", "4:35", "4:40", "4:45", "4:50", "4:55", "5:00", "5:05", "5:10", "5:20", "5:25", "5:30", "5:35", "5:45", "5:50", "6:00"];
-const hrValues=[72, 72, 72, 70, 63, 66, 67, 68, 68, 67, 68, 69, 64, 63, 61, 64, 64, 67, 64, 64, 63, 66, 67, 66, 65, 68, 67, 66, 75, 74, 72, 72, 72, 70, 70, 70, 70, 70, 71, 63, 67, 64, 63, 64, 64, 68, 73, 73, 72, 74, 75, 70, 69, 70, 69, 69, 64, 73, 64, 66, 66, 69, 67, 69];
+const hrLabels=["0:00", "0:10", "0:15", "0:20", "0:25", "0:30", "0:35", "0:40", "0:45", "0:50", "0:55", "1:00", "1:05", "1:10", "1:15", "1:20", "1:25", "1:30", "1:35", "1:45", "1:55", "2:00", "2:05", "2:10", "2:15", "2:20", "2:25", "2:30", "2:35", "2:40", "2:45", "2:55", "3:00", "3:10", "3:15", "3:20", "3:25", "3:30", "3:35", "3:40", "3:45", "3:50", "3:55", "4:00", "4:10", "4:15", "4:20", "4:25", "4:30", "4:35", "4:40", "4:45", "4:50", "4:55", "5:00", "5:05", "5:10", "5:20", "5:25", "5:30", "5:35", "5:45", "5:50", "6:00", "6:45", "6:50", "6:55", "7:00", "7:05", "7:10", "7:15", "7:20", "7:25", "7:30", "7:35", "7:40", "7:45", "7:50", "7:55", "8:00", "8:05", "8:10", "8:15", "8:20", "8:25", "8:30", "8:35", "8:40", "8:45"];
+const hrValues=[72, 72, 72, 70, 63, 66, 67, 68, 68, 67, 68, 69, 64, 63, 61, 64, 64, 67, 64, 64, 63, 66, 67, 66, 65, 68, 67, 66, 75, 74, 72, 72, 72, 70, 70, 70, 70, 70, 71, 63, 67, 64, 63, 64, 64, 68, 73, 73, 72, 74, 75, 70, 69, 70, 69, 69, 64, 73, 64, 66, 66, 69, 67, 77, 102, 96, 76, 86, 84, 88, 92, 84, 77, 90, 96, 94, 100, 95, 80, 90, 103, 95, 104, 96, 96, 103, 95, 88, 89];
 const sleepLabels=["3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr", "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr", "17 Apr", "18 Apr", "19 Apr", "20 Apr", "21 Apr", "22 Apr", "23 Apr", "24 Apr", "25 Apr", "26 Apr", "27 Apr", "28 Apr", "29 Apr", "30 Apr", "1 May", "2 May"];
 const sleepNightly=[6.1, 7.5, 7.0, 8.7, 6.6, 7.2, 2.9, 9.0, 6.9, 7.1, 8.4, 7.3, 7.2, 6.5, 7.6, 7.5, 6.7, 8.1, 7.1, 6.9, 8.1, 7.8, 6.1, 7.5, 8.4, 7.2, 7.0, 6.5, 6.7, 5.1];
 const sleepDebt=[1.1, 0.9, 1.0, -0.5, 0.1, 0.2, 4.5, 2.7, 3.0, 3.1, 1.9, 1.7, 1.7, 2.4, 2.0, 1.7, 2.2, 1.3, 1.4, 1.7, 0.9, 0.2, 1.3, 1.0, -0.3, -0.2, -0.0, 0.7, 1.1, 3.2];
