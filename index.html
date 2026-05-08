@@ -221,6 +221,33 @@
     .header-title{font-size:22px;} .tab-btn{font-size:11px;padding:7px 8px;}
     .wk-stat-grid{grid-template-columns:repeat(2,1fr);}
   }
+  /* ── Journal tab ───────────────────────────────────── */
+  .j-item{padding:8px 0;border-bottom:1px solid var(--border);}
+  .j-item:last-child{border-bottom:none;}
+  .j-check-label{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+  .j-check-label input[type=checkbox]{width:16px;height:16px;accent-color:#22c98a;cursor:pointer;flex-shrink:0;}
+  .j-label{font-size:13px;color:var(--text);}
+  .j-detail{margin-top:8px;padding-left:26px;}
+  .j-btn-group{display:flex;flex-wrap:wrap;gap:6px;}
+  .j-btn{background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:6px;
+    padding:5px 10px;font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;transition:all .15s;}
+  .j-btn.active{background:#22c98a;color:#000;border-color:#22c98a;font-weight:700;}
+  .j-row{display:flex;flex-direction:column;gap:4px;padding:6px 0;}
+  .j-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .j-past-entry{padding:10px 0;border-bottom:1px solid var(--border);font-size:12px;}
+  .j-past-entry:last-child{border-bottom:none;}
+  .j-past-date{font-family:'DM Mono',monospace;color:#5b9cf6;font-size:11px;margin-bottom:4px;}
+  .j-past-tags{display:flex;flex-wrap:wrap;gap:4px;}
+  .j-tag{background:var(--surface2);border:1px solid var(--border);border-radius:4px;
+    padding:2px 7px;font-size:10px;color:var(--muted);}
+  .j-impact-row{display:grid;grid-template-columns:1fr 60px 60px 60px;gap:8px;
+    align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;}
+  .j-impact-row:last-child{border-bottom:none;}
+  .j-impact-hdr{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;
+    font-family:'DM Mono',monospace;}
+  .j-delta-pos{color:#22c98a;font-weight:700;}
+  .j-delta-neg{color:#ef5350;font-weight:700;}
+  .j-delta-neu{color:var(--muted);}
 </style>
 </head>
 <body>
@@ -232,7 +259,7 @@
       <div class="header-date">Apple Health Dashboard</div>
       <div class="header-title">Recovery Report</div>
       <div class="header-sub">Friday 8 May 2026</div>
-      <div class="updated-tag">Updated: 2:44 PM</div>
+      <div class="updated-tag">Updated: 3:03 PM</div>
       
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
@@ -254,6 +281,7 @@
     <button class="tab-btn" onclick="switchTab('exertion',this)">Exertion</button>
     <button class="tab-btn" onclick="switchTab('energy',this)">Net energy</button>
     <button class="tab-btn" onclick="switchTab('trends',this)">Trends</button>
+    <button class="tab-btn" onclick="switchTab('journal',this)">Journal</button>
   </div>
 
   <!-- RECOVERY TAB -->
@@ -716,6 +744,125 @@
 
     <!-- Previous month recap (rendered by JS, static data) -->
     <div id="wk-recap" style="margin-top:4px;"><!-- JS --></div>
+
+  </div>
+
+  <!-- JOURNAL TAB -->
+  <div id="tab-journal" class="tab-panel">
+
+    <!-- Entry form for yesterday -->
+    <div class="chart-container" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+          <div class="chart-title">Yesterday's log</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace;">Thursday 7 May</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="saveJournalEntry()" style="background:#22c98a;color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;">Save entry</button>
+          <button onclick="exportJournal()" style="background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:11px;cursor:pointer;" title="Download journal.json">&#8595; Export</button>
+        </div>
+      </div>
+
+      <!-- Nutrition & Stimulants -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#f5a623;margin-bottom:10px;font-family:'DM Mono',monospace;">&#9654; Nutrition &amp; Stimulants</div>
+
+        <!-- Coffee -->
+        <div class="j-item" id="ji_coffee_wrap">
+          <label class="j-check-label">
+            <input type="checkbox" id="ji_coffee" onchange="jToggleDetail('coffee_detail')">
+            <span class="j-label">&#9749; Coffee</span>
+          </label>
+          <div id="coffee_detail" class="j-detail" style="display:none;">
+            <div class="j-btn-group" id="coffee_qty">
+              <button class="j-btn" data-val="low" onclick="jSelect(this,'coffee_qty')">Low</button>
+              <button class="j-btn" data-val="medium" onclick="jSelect(this,'coffee_qty')">Medium</button>
+              <button class="j-btn" data-val="high" onclick="jSelect(this,'coffee_qty')">High</button>
+            </div>
+            <div class="j-btn-group" id="coffee_timing" style="margin-top:6px;">
+              <button class="j-btn" data-val="am" onclick="jSelect(this,'coffee_timing')">AM</button>
+              <button class="j-btn" data-val="lunch" onclick="jSelect(this,'coffee_timing')">Lunch</button>
+              <button class="j-btn" data-val="afternoon" onclick="jSelect(this,'coffee_timing')">Afternoon</button>
+              <button class="j-btn" data-val="evening" onclick="jSelect(this,'coffee_timing')">Evening</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alcohol -->
+        <div class="j-item">
+          <label class="j-check-label">
+            <input type="checkbox" id="ji_alcohol" onchange="jToggleDetail('alcohol_detail')">
+            <span class="j-label">&#127863; Alcohol</span>
+          </label>
+          <div id="alcohol_detail" class="j-detail" style="display:none;">
+            <div class="j-btn-group" id="alcohol_qty">
+              <button class="j-btn" data-val="low" onclick="jSelect(this,'alcohol_qty')">1&ndash;2 drinks</button>
+              <button class="j-btn" data-val="medium" onclick="jSelect(this,'alcohol_qty')">3&ndash;4 drinks</button>
+              <button class="j-btn" data-val="high" onclick="jSelect(this,'alcohol_qty')">5+ drinks</button>
+            </div>
+            <div class="j-btn-group" id="alcohol_timing" style="margin-top:6px;">
+              <button class="j-btn" data-val="lunch" onclick="jSelect(this,'alcohol_timing')">Lunch</button>
+              <button class="j-btn" data-val="afternoon" onclick="jSelect(this,'alcohol_timing')">Afternoon</button>
+              <button class="j-btn" data-val="evening" onclick="jSelect(this,'alcohol_timing')">Evening</button>
+              <button class="j-btn" data-val="late_night" onclick="jSelect(this,'alcohol_timing')">Late night</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="j-row">
+          <label class="j-check-label"><input type="checkbox" id="ji_late_meal"><span class="j-label">&#127769; Late meal (&lt;2h before bed)</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_processed_food"><span class="j-label">&#127828; Processed / sugary food</span></label>
+        </div>
+      </div>
+
+      <!-- Health Protocols -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#5b9cf6;margin-bottom:10px;font-family:'DM Mono',monospace;">&#9654; Health Protocols</div>
+        <div class="j-grid">
+          <label class="j-check-label"><input type="checkbox" id="ji_trt"><span class="j-label">TRT</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_ghkcu"><span class="j-label">GHKCU</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_cjc"><span class="j-label">CJC</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_dsip"><span class="j-label">DSIP</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_bp147"><span class="j-label">BP-147</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_reta"><span class="j-label">Reta</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_motc"><span class="j-label">MOT-C</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_supplements"><span class="j-label">General supplements</span></label>
+        </div>
+      </div>
+
+      <!-- Lifestyle (WHOOP-style) -->
+      <div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#ef5350;margin-bottom:10px;font-family:'DM Mono',monospace;">&#9654; Lifestyle</div>
+        <div class="j-grid">
+          <label class="j-check-label"><input type="checkbox" id="ji_work_stress"><span class="j-label">&#128165; Work stress (high)</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_travel"><span class="j-label">&#9992; Travel</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_illness"><span class="j-label">&#129324; Illness / sick</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_nap"><span class="j-label">&#128564; Nap</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_meditation"><span class="j-label">&#129504; Meditation</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_cold_exposure"><span class="j-label">&#10052; Cold exposure</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_screen_time"><span class="j-label">&#128241; Screen time late</span></label>
+          <label class="j-check-label"><input type="checkbox" id="ji_consistent_bed"><span class="j-label">&#128338; Consistent bedtime</span></label>
+        </div>
+      </div>
+
+      <div id="j_save_msg" style="font-size:11px;color:#22c98a;text-align:center;margin-top:12px;display:none;">Entry saved &#10003;</div>
+    </div>
+
+    <!-- Past entries list -->
+    <div class="chart-container" style="margin-bottom:16px;">
+      <div class="chart-title" style="margin-bottom:12px;">Recent entries</div>
+      <div id="j_entries_list" style="font-size:12px;color:var(--muted);"></div>
+    </div>
+
+    <!-- Impact analysis -->
+    <div class="chart-container">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+        <div class="chart-title">Impact analysis</div>
+        <div style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;">next-day sleep &amp; recovery after each factor</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px;">Based on your logged entries &mdash; needs at least 5 entries per factor to be meaningful.</div>
+      <div id="j_impact_table"></div>
+    </div>
 
   </div>
 
@@ -1368,6 +1515,234 @@ new Chart(document.getElementById('sleepDebtChart'),{
     }
   }
 });
+
+/* ══════════════════════════════════════════════════════════
+   JOURNAL — constants embedded by Python at build time
+   ══════════════════════════════════════════════════════════ */
+const JOURNAL_DATA    = {"entries": []};
+const JOURNAL_HISTORY = [{"date": "2026-03-10", "sleep": 0, "rec": null, "hrv": null, "strain": 15.0}, {"date": "2026-03-11", "sleep": 0, "rec": null, "hrv": null, "strain": 14.6}, {"date": "2026-03-12", "sleep": 0, "rec": null, "hrv": null, "strain": 15.2}, {"date": "2026-03-13", "sleep": 0, "rec": null, "hrv": null, "strain": 14.7}, {"date": "2026-03-14", "sleep": 0, "rec": null, "hrv": null, "strain": 7.7}, {"date": "2026-03-15", "sleep": 0, "rec": null, "hrv": null, "strain": 8.7}, {"date": "2026-03-16", "sleep": 7.85, "rec": 62, "hrv": 54.6, "strain": 4.7}, {"date": "2026-03-17", "sleep": 6.74, "rec": 53, "hrv": 46.6, "strain": 12.0}, {"date": "2026-03-18", "sleep": 5.76, "rec": 37, "hrv": 44.9, "strain": 7.3}, {"date": "2026-03-19", "sleep": 8.45, "rec": 60, "hrv": 47.2, "strain": 7.6}, {"date": "2026-03-20", "sleep": 7.83, "rec": 69, "hrv": 49.8, "strain": 9.6}, {"date": "2026-03-21", "sleep": 7.01, "rec": 70, "hrv": 51.2, "strain": 8.9}, {"date": "2026-03-22", "sleep": 8.01, "rec": 34, "hrv": 40.1, "strain": 12.5}, {"date": "2026-03-23", "sleep": 6.34, "rec": 18, "hrv": 40.8, "strain": 3.7}, {"date": "2026-03-24", "sleep": 7.24, "rec": 84, "hrv": 57.4, "strain": 10.0}, {"date": "2026-03-25", "sleep": 7.43, "rec": 71, "hrv": 49.8, "strain": 8.6}, {"date": "2026-03-26", "sleep": 7.38, "rec": 81, "hrv": 60.0, "strain": 8.4}, {"date": "2026-03-27", "sleep": 7.58, "rec": 86, "hrv": 61.1, "strain": 9.4}, {"date": "2026-03-28", "sleep": 6.54, "rec": 78, "hrv": 58.4, "strain": 10.6}, {"date": "2026-03-29", "sleep": 7.86, "rec": 42, "hrv": 43.5, "strain": 11.4}, {"date": "2026-03-30", "sleep": 8.95, "rec": 64, "hrv": 51.3, "strain": 3.4}, {"date": "2026-03-31", "sleep": 7.33, "rec": 58, "hrv": 48.4, "strain": 11.2}, {"date": "2026-04-01", "sleep": 7.38, "rec": 80, "hrv": 54.3, "strain": 7.2}, {"date": "2026-04-02", "sleep": 6.3, "rec": 45, "hrv": 47.1, "strain": 10.9}, {"date": "2026-04-03", "sleep": 6.07, "rec": 30, "hrv": 47.8, "strain": 14.1}, {"date": "2026-04-04", "sleep": 7.47, "rec": 76, "hrv": 55.9, "strain": 8.6}, {"date": "2026-04-05", "sleep": 7.04, "rec": 73, "hrv": 56.4, "strain": 7.8}, {"date": "2026-04-06", "sleep": 8.7, "rec": 94, "hrv": 60.6, "strain": 8.0}, {"date": "2026-04-07", "sleep": 6.59, "rec": 43, "hrv": 51.1, "strain": 9.8}, {"date": "2026-04-08", "sleep": 7.15, "rec": 50, "hrv": 51.3, "strain": 11.5}, {"date": "2026-04-09", "sleep": 0, "rec": 55, "hrv": 55.7, "strain": 9.2}, {"date": "2026-04-10", "sleep": 8.98, "rec": 79, "hrv": 58.2, "strain": 13.8}, {"date": "2026-04-11", "sleep": 6.92, "rec": 68, "hrv": 55.8, "strain": 5.9}, {"date": "2026-04-12", "sleep": 7.12, "rec": 46, "hrv": 45.9, "strain": 11.1}, {"date": "2026-04-13", "sleep": 8.39, "rec": 39, "hrv": 49.0, "strain": 12.0}, {"date": "2026-04-14", "sleep": 7.34, "rec": 71, "hrv": 58.1, "strain": 8.5}, {"date": "2026-04-15", "sleep": 7.24, "rec": 48, "hrv": 45.8, "strain": 8.0}, {"date": "2026-04-16", "sleep": 6.5, "rec": 74, "hrv": 63.0, "strain": 9.0}, {"date": "2026-04-17", "sleep": 7.57, "rec": 89, "hrv": 68.1, "strain": 13.7}, {"date": "2026-04-18", "sleep": 7.53, "rec": 84, "hrv": 67.3, "strain": 13.7}, {"date": "2026-04-19", "sleep": 6.66, "rec": 53, "hrv": 58.6, "strain": 8.2}, {"date": "2026-04-20", "sleep": 8.15, "rec": 70, "hrv": 61.4, "strain": 8.1}, {"date": "2026-04-21", "sleep": 7.06, "rec": 65, "hrv": 55.6, "strain": 6.2}, {"date": "2026-04-22", "sleep": 6.9, "rec": 66, "hrv": 58.6, "strain": 11.3}, {"date": "2026-04-23", "sleep": 8.06, "rec": 58, "hrv": 53.5, "strain": 5.8}, {"date": "2026-04-24", "sleep": 7.85, "rec": 72, "hrv": 58.9, "strain": 12.8}, {"date": "2026-04-25", "sleep": 6.15, "rec": 28, "hrv": 45.5, "strain": 8.3}, {"date": "2026-04-26", "sleep": 7.52, "rec": 52, "hrv": 50.4, "strain": 9.4}, {"date": "2026-04-27", "sleep": 8.43, "rec": 43, "hrv": 50.0, "strain": 11.2}, {"date": "2026-04-28", "sleep": 7.17, "rec": 57, "hrv": 49.8, "strain": 4.3}, {"date": "2026-04-29", "sleep": 6.98, "rec": 57, "hrv": 52.0, "strain": 4.9}, {"date": "2026-04-30", "sleep": 6.53, "rec": 25, "hrv": 44.1, "strain": 9.3}, {"date": "2026-05-01", "sleep": 6.74, "rec": 60, "hrv": 54.0, "strain": 12.8}, {"date": "2026-05-02", "sleep": 5.13, "rec": 35, "hrv": 52.0, "strain": 4.9}, {"date": "2026-05-03", "sleep": 7.72, "rec": 62, "hrv": 52.6, "strain": 13.1}, {"date": "2026-05-04", "sleep": 7.28, "rec": 49, "hrv": 51.8, "strain": 11.0}, {"date": "2026-05-05", "sleep": 6.68, "rec": 49, "hrv": 50.8, "strain": 7.1}, {"date": "2026-05-06", "sleep": 6.1, "rec": 65, "hrv": 55.2, "strain": 11.4}, {"date": "2026-05-07", "sleep": 6.53, "rec": 79, "hrv": 55.5, "strain": 8.3}, {"date": "2026-05-08", "sleep": 7.81, "rec": 91, "hrv": 66.7, "strain": 5.7}];
+const JOURNAL_DATE    = '2026-05-07';
+
+/* ── helpers ── */
+function _jGet(){
+  try{ return JSON.parse(localStorage.getItem('journal_entries')||'[]'); }catch(e){ return []; }
+}
+function _jSet(arr){ localStorage.setItem('journal_entries',JSON.stringify(arr)); }
+
+/* Merge file-based entries with localStorage on first load */
+function _jMerge(){
+  const fromFile = JOURNAL_DATA.entries || [];
+  const fromLS   = _jGet();
+  const byDate   = {};
+  fromFile.forEach(e=>{ byDate[e.date]=e; });
+  fromLS.forEach(e=>{   byDate[e.date]=e; }); // localStorage wins (more recent)
+  return Object.values(byDate).sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+/* ── toggle qty/timing sub-panel when checkbox clicked ── */
+function jToggleDetail(detailId){
+  const cb  = detailId === 'coffee_detail'  ? document.getElementById('ji_coffee')
+            : detailId === 'alcohol_detail' ? document.getElementById('ji_alcohol')
+            : null;
+  const div = document.getElementById(detailId);
+  if(!div) return;
+  div.style.display = (cb && cb.checked) ? 'block' : 'none';
+  if(cb && !cb.checked){
+    div.querySelectorAll('.j-btn').forEach(b=>b.classList.remove('active'));
+  }
+}
+
+/* ── single-select within a btn-group ── */
+function jSelect(btn, groupId){
+  document.getElementById(groupId).querySelectorAll('.j-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* ── read current form state into an entry object ── */
+function _jReadForm(){
+  const g = id => { const el=document.getElementById(id); return el?el.checked:false; };
+  const selected = groupId => {
+    const active = document.getElementById(groupId)?.querySelector('.j-btn.active');
+    return active ? active.dataset.val : null;
+  };
+  const entry = { date: JOURNAL_DATE, factors:{} };
+  // Nutrition
+  if(g('ji_coffee')){
+    entry.factors.coffee = { qty: selected('coffee_qty'), timing: selected('coffee_timing') };
+  }
+  if(g('ji_alcohol')){
+    entry.factors.alcohol = { qty: selected('alcohol_qty'), timing: selected('alcohol_timing') };
+  }
+  if(g('ji_late_meal'))      entry.factors.late_meal      = true;
+  if(g('ji_processed_food')) entry.factors.processed_food = true;
+  // Health protocols
+  const protos = ['trt','ghkcu','cjc','dsip','bp147','reta','motc','supplements'];
+  protos.forEach(p=>{ if(g('ji_'+p)) entry.factors[p]=true; });
+  // Lifestyle
+  const life = ['work_stress','travel','illness','nap','meditation','cold_exposure','screen_time','consistent_bed'];
+  life.forEach(l=>{ if(g('ji_'+l)) entry.factors[l]=true; });
+  return entry;
+}
+
+/* ── populate form from a saved entry ── */
+function _jPopulateForm(entry){
+  if(!entry) return;
+  const f = entry.factors || {};
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.checked=!!val; };
+  const setBtn = (groupId, val) => {
+    if(!val) return;
+    const btn = document.getElementById(groupId)?.querySelector('[data-val="'+val+'"]');
+    if(btn){ document.getElementById(groupId).querySelectorAll('.j-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  };
+  if(f.coffee){
+    set('ji_coffee',true); jToggleDetail('coffee_detail');
+    setBtn('coffee_qty', f.coffee.qty); setBtn('coffee_timing', f.coffee.timing);
+  }
+  if(f.alcohol){
+    set('ji_alcohol',true); jToggleDetail('alcohol_detail');
+    setBtn('alcohol_qty', f.alcohol.qty); setBtn('alcohol_timing', f.alcohol.timing);
+  }
+  set('ji_late_meal',      f.late_meal);
+  set('ji_processed_food', f.processed_food);
+  ['trt','ghkcu','cjc','dsip','bp147','reta','motc','supplements'].forEach(p=>set('ji_'+p, f[p]));
+  ['work_stress','travel','illness','nap','meditation','cold_exposure','screen_time','consistent_bed'].forEach(l=>set('ji_'+l, f[l]));
+}
+
+/* ── save entry to localStorage ── */
+function saveJournalEntry(){
+  const entry  = _jReadForm();
+  const all    = _jMerge().filter(e=>e.date!==entry.date);
+  all.unshift(entry);
+  _jSet(all);
+  const msg = document.getElementById('j_save_msg');
+  msg.style.display='block';
+  setTimeout(()=>msg.style.display='none', 2500);
+  renderJournalEntries();
+  renderImpactTable();
+}
+
+/* ── download merged journal as .json ── */
+function exportJournal(){
+  const all  = _jMerge();
+  const blob = new Blob([JSON.stringify({entries:all},null,2)],{type:'application/json'});
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = 'journal.json';
+  a.click();
+}
+
+/* ── render past entries list ── */
+const FACTOR_LABELS = {
+  coffee:'Coffee', alcohol:'Alcohol', late_meal:'Late meal', processed_food:'Processed food',
+  trt:'TRT', ghkcu:'GHKCU', cjc:'CJC', dsip:'DSIP', bp147:'BP-147', reta:'Reta', motc:'MOT-C',
+  supplements:'Supplements', work_stress:'Work stress', travel:'Travel', illness:'Illness',
+  nap:'Nap', meditation:'Meditation', cold_exposure:'Cold exposure',
+  screen_time:'Screen late', consistent_bed:'Consistent bed'
+};
+
+function renderJournalEntries(){
+  const all = _jMerge();
+  const el  = document.getElementById('j_entries_list');
+  if(!all.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px;text-align:center;padding:20px 0;">No entries yet — save your first entry above.</div>'; return; }
+  el.innerHTML = all.slice(0,14).map(e=>{
+    const tags = Object.keys(e.factors||{}).map(k=>'<span class="j-tag">'+( FACTOR_LABELS[k]||k )+'</span>').join('');
+    return '<div class="j-past-entry"><div class="j-past-date">'+e.date+'</div><div class="j-past-tags">'+(tags||'<span style="color:var(--muted);font-size:11px;">Nothing logged</span>')+'</div></div>';
+  }).join('');
+}
+
+/* ── impact analysis ── */
+function computeImpactAnalysis(){
+  const entries = _jMerge();
+  if(!entries.length) return {};
+  // Build lookup: health date -> metrics
+  const hByDate = {};
+  JOURNAL_HISTORY.forEach(h=>{ hByDate[h.date]=h; });
+  // For each factor, collect next-day outcomes
+  const stats = {};
+  const MIN_ENTRIES = 3; // lower threshold so analysis appears earlier
+  entries.forEach(e=>{
+    const nextDate = (() => {
+      const d = new Date(e.date+'T12:00:00Z');
+      d.setDate(d.getDate()+1);
+      return d.toISOString().slice(0,10);
+    })();
+    const next = hByDate[nextDate];
+    if(!next) return;
+    Object.keys(e.factors||{}).forEach(k=>{
+      if(!stats[k]) stats[k]={present:{sleep:[],rec:[]},absent:{sleep:[],rec:[]}};
+      stats[k].present.sleep.push(next.sleep||0);
+      stats[k].present.rec.push(next.rec||0);
+    });
+    // For absent: factors not in this entry
+    Object.keys(FACTOR_LABELS).forEach(k=>{
+      if(!(k in (e.factors||{}))){
+        if(!stats[k]) stats[k]={present:{sleep:[],rec:[]},absent:{sleep:[],rec:[]}};
+        stats[k].absent.sleep.push(next.sleep||0);
+        stats[k].absent.rec.push(next.rec||0);
+      }
+    });
+  });
+  const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+  const result = {};
+  Object.keys(stats).forEach(k=>{
+    const s = stats[k];
+    if(s.present.sleep.length < MIN_ENTRIES) return; // not enough data yet
+    result[k] = {
+      n:        s.present.sleep.length,
+      sleepOn:  avg(s.present.sleep),
+      sleepOff: avg(s.absent.sleep),
+      recOn:    avg(s.present.rec),
+      recOff:   avg(s.absent.rec)
+    };
+  });
+  return result;
+}
+
+/* ── render impact table ── */
+function renderImpactTable(){
+  const data = computeImpactAnalysis();
+  const el   = document.getElementById('j_impact_table');
+  const keys = Object.keys(data);
+  if(!keys.length){
+    el.innerHTML='<div style="color:var(--muted);font-size:12px;text-align:center;padding:16px 0;">Keep logging — impact analysis appears once you have 3+ entries per factor.</div>';
+    return;
+  }
+  // Sort by recovery delta descending
+  keys.sort((a,b)=>{
+    const da = (data[b].recOn||0)-(data[b].recOff||0);
+    const db = (data[a].recOn||0)-(data[a].recOff||0);
+    return da-db;
+  });
+  const fmt = (v,d) => v!==null ? v.toFixed(d) : '—';
+  const cls = (delta) => delta > 0.5 ? 'j-delta-pos' : delta < -0.5 ? 'j-delta-neg' : 'j-delta-neu';
+  const arrow = (delta) => delta > 0.5 ? '▲' : delta < -0.5 ? '▼' : '–';
+  let html = '<div style="overflow-x:auto;">';
+  html += '<div class="j-impact-row j-impact-hdr" style="border-bottom:2px solid var(--border);">';
+  html += '<div>Factor</div><div style="text-align:right;">N</div><div style="text-align:right;">Sleep Δ</div><div style="text-align:right;">Rec Δ</div></div>';
+  keys.forEach(k=>{
+    const d = data[k];
+    const sd = (d.sleepOn||0)-(d.sleepOff||0);
+    const rd = (d.recOn||0)-(d.recOff||0);
+    html += '<div class="j-impact-row">';
+    html += '<div>'+( FACTOR_LABELS[k]||k )+'</div>';
+    html += '<div style="text-align:right;color:var(--muted);">'+d.n+'</div>';
+    html += '<div style="text-align:right;" class="'+cls(sd)+'">'+arrow(sd)+' '+fmt(Math.abs(sd),1)+'h</div>';
+    html += '<div style="text-align:right;" class="'+cls(rd)+'">'+arrow(rd)+' '+fmt(Math.abs(rd),0)+'%</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+/* ── init journal on page load ── */
+function initJournal(){
+  const all     = _jMerge();
+  const todayEntry = all.find(e=>e.date===JOURNAL_DATE);
+  if(todayEntry) _jPopulateForm(todayEntry);
+  renderJournalEntries();
+  renderImpactTable();
+}
+document.addEventListener('DOMContentLoaded', initJournal);
 </script>
 </body>
 </html>
